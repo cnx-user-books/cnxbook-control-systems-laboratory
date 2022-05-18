@@ -1,0 +1,424 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Rigid Body PD and PID Control</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>8b78f5d5-2521-4644-8d76-25d6f91ea6c5</md:uuid>
+</metadata>
+<content>
+<section id="id48473434">
+<title>Rigid Body PD and PID Control</title>
+<section id="id48473441">
+<title>Objectives</title>
+<list list-type="enumerated" id="id48473448">
+<item>Understand the individual effects of proportional,
+derivative, and integral action.</item>
+<item>Design PD and PID controllers for the 1DOF rigid-body
+system.</item>
+<item>Implement your first controller in LabVIEW!</item>
+</list>
+</section>
+<section id="id48473998">
+<title>Pre-Lab</title>
+<list list-type="enumerated" id="id48474005">
+<item>Derive the equations of motion for the 1DOF (mass carriage
+loaded with four 
+  <m:math>
+    <m:mn>0.5</m:mn>
+    <m:mrow>
+      <m:mi>k</m:mi>
+      <m:mi>g</m:mi>
+    </m:mrow>
+  </m:math> brass weights) rigid-body system that you
+will control in this lab. The plant configuration is shown
+below.
+<figure id="rigidbodyplantconfiguration"><media id="idm8230672" alt=""><image src="../../media/rigidconfig.jpg" mime-type="image/jpeg"/></media>
+<caption>Rigid Body Plant Configuration</caption></figure>
+</item>
+<item>Starting with the EOM from the previous question, rewrite it
+so that the control effort into the system is 
+   <m:math>
+    <m:mi>u</m:mi>
+    <m:mo>⁡</m:mo>
+    <m:mfenced>
+      <m:mi>t</m:mi>
+    </m:mfenced>
+  </m:math> (in units of DAC
+counts) and the position, velocity, and acceleration are 
+  <m:math>
+    <m:msub>
+      <m:mi>x</m:mi>
+      <m:mi>e</m:mi>
+    </m:msub>
+    <m:mi>,</m:mi>
+    <m:msub>
+      <m:mover>
+        <m:mi>x</m:mi>
+        <m:mo>.</m:mo>
+      </m:mover>
+      <m:mi>e</m:mi>
+    </m:msub>
+    <m:mi>,</m:mi>
+    <m:msub>
+      <m:mover>
+        <m:mi>x</m:mi>
+        <m:mo>..</m:mo>
+      </m:mover>
+      <m:mi>e</m:mi>
+    </m:msub>
+  </m:math> where the subscript "e" denotes the encoder.</item>
+<item>Find the plant's transfer function 
+  <m:math>
+    <m:mi>G</m:mi>
+    <m:mo>⁡</m:mo>
+    <m:mfenced>
+      <m:mi>s</m:mi>
+    </m:mfenced>
+  </m:math>.</item>
+<item>Consider a PID controller 
+  <m:math display="block">
+    <m:msub>
+      <m:mi>G</m:mi>
+      <m:mi>c</m:mi>
+    </m:msub>
+    <m:mfenced>
+      <m:mi>s</m:mi>
+    </m:mfenced>
+    <m:mo>=</m:mo>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>p</m:mi>
+    </m:msub>
+    <m:mo>+</m:mo>
+    <m:mfrac>
+      <m:msub>
+        <m:mi>k</m:mi>
+        <m:mi>i</m:mi>
+      </m:msub>
+      <m:mi>s</m:mi>
+    </m:mfrac>
+    <m:mo>+</m:mo>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>d</m:mi>
+    </m:msub>
+    <m:mi>s</m:mi>
+  </m:math>
+Find the closed-loop transfer function of the system below where 
+  <m:math>
+    <m:mi>G</m:mi>
+    <m:mo>⁡</m:mo>
+    <m:mfenced>
+      <m:mi>s</m:mi>
+    </m:mfenced>
+  </m:math>
+is the transfer function you found previously.<figure id="transferfunction"><media id="idm288016" alt=""><image src="../../media/trnsfrfunc.jpg" mime-type="image/jpeg"/></media>
+<caption>Transfer Function</caption></figure></item>
+<item>With 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>i</m:mi>
+    </m:msub>
+    <m:mo>=</m:mo>
+    <m:mn>0</m:mn>
+  </m:math>= 0 find 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>p</m:mi>
+    </m:msub>
+  </m:math>
+and 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>d</m:mi>
+    </m:msub>
+  </m:math>
+such that the closed-loop system is critically damped and has a natural frequency of
+<m:math>
+    <m:msub>
+      <m:mi>ω</m:mi>
+      <m:mi>n</m:mi>
+    </m:msub>
+    <m:mo>=</m:mo>
+    <m:msqrt>
+      <m:mn>2</m:mn>
+    </m:msqrt>
+    <m:mrow>
+      <m:mi>H</m:mi>
+      <m:mi>z</m:mi>
+    </m:mrow>
+  </m:math>.</item>
+
+<item>Now with 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>i</m:mi>
+    </m:msub>
+    <m:mo>=</m:mo>
+    <m:mn>0</m:mn>
+  </m:math> find 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>p</m:mi>
+    </m:msub>
+  </m:math> and 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>d</m:mi>
+    </m:msub>
+  </m:math> such that the closed-loop
+system has a natural frequency of 
+  <m:math>
+    <m:msub>
+      <m:mi>ω</m:mi>
+      <m:mi>n</m:mi>
+    </m:msub>
+    <m:mo>=</m:mo>
+    <m:mn>4</m:mn>
+    <m:mrow>
+      <m:mi>H</m:mi>
+      <m:mi>z</m:mi>
+    </m:mrow>
+  </m:math>
+ and the following
+damping ratios:
+  <m:math display="block">
+    <m:mi>ζ</m:mi>
+    <m:mo>=</m:mo>
+    <m:mn>0.2</m:mn>
+  </m:math>
+  <m:math display="block">
+    <m:mi>ζ</m:mi>
+    <m:mo>=</m:mo>
+    <m:mn>0.5</m:mn>
+  </m:math>
+  <m:math display="block">
+    <m:mi>ζ</m:mi>
+    <m:mo>=</m:mo>
+    <m:mn>1.0</m:mn>
+  </m:math>
+  <m:math display="block">
+    <m:mi>ζ</m:mi>
+    <m:mo>=</m:mo>
+    <m:mn>2.0</m:mn>
+  </m:math>
+</item>
+<item>Compute 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>i</m:mi>
+    </m:msub>
+  </m:math> such that 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mrow>
+        <m:mi>h</m:mi>
+        <m:mi>w</m:mi>
+      </m:mrow>
+    </m:msub>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>i</m:mi>
+    </m:msub>
+    <m:mo>=</m:mo>
+    <m:mn>7500</m:mn>
+    <m:mi>N</m:mi>
+    <m:mo>/</m:mo>
+    <m:mfenced separators="">
+      <m:mi>m</m:mi>
+      <m:mo>-</m:mo>
+      <m:mi>sec</m:mi>
+    </m:mfenced>
+  </m:math>
+</item>
+<item>Using the Control Design Toolkit, write a LabVIEW VI that
+simulates the step response of the closed-loop system. The
+controller gains 
+<m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>p</m:mi>
+    </m:msub>
+  </m:math>,
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>i</m:mi>
+    </m:msub>
+  </m:math>, and 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>d</m:mi>
+    </m:msub>
+  </m:math>
+should be controls on the front
+panel so you can change each one individually and see how it
+affects the system's response.</item>
+</list>
+</section>
+<section id="id48470832">
+<title>Lab Procedure</title>
+<list list-type="enumerated" id="id48470838">
+<item>Configure the plant as shown above in Fig. 1 with the first
+mass carriage free and the other two clamped. Load four 
+  <m:math>
+    <m:mn>0.5</m:mn>
+    <m:mrow>
+      <m:mi>k</m:mi>
+      <m:mi>g</m:mi>
+    </m:mrow>
+  </m:math>
+ brass
+weights onto the carriage. No springs should be attached to the
+carriage.</item>
+<item>Inset a PID controller structure into the control loop VI.
+You should implement the control algorithm in two ways: one with
+the differentiator in the forward loop and the other with the
+differentiator in an inner feedback loop. A good way to do this is
+with a case structure. Place the controller gains and case selector
+as controls on the front panel.</item>
+<item>Set 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>i</m:mi>
+    </m:msub>
+    <m:mo>=</m:mo>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>d</m:mi>
+    </m:msub>
+    <m:mo>=</m:mo>
+    <m:mn>0</m:mn>
+  </m:math>
+ and enter the value of 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>p</m:mi>
+    </m:msub>
+  </m:math>
+ you found in step
+5. After carefully checking for stability, acquire and plot the
+natural response of the system. Find the frequency of the
+oscillation. Is it what you expected?</item>
+<item>Now set 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>p</m:mi>
+    </m:msub>
+    <m:mo>=</m:mo>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>i</m:mi>
+    </m:msub>
+    <m:mo>=</m:mo>
+    <m:mn>0</m:mn>
+  </m:math>
+and enter the value of 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>d</m:mi>
+    </m:msub>
+  </m:math>
+you found in
+step 5. Manually displace the mass carriage; what do you feel? Do
+not excessively coerce the carriage as this may cause the motor
+drive protection to open the control loop. Now enter a value of kd
+five times as large, and manually displace the carriage again. What
+do you notice now?</item>
+<item>Now implement the values of 
+<m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>p</m:mi>
+    </m:msub>
+  </m:math> and
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>d</m:mi>
+    </m:msub>
+  </m:math>
+you found for the four
+cases in step 6. Perform a 3000 count step for each case; choose a
+dwell time long enough for the system to reach steady-state. Does
+the system's response agree with your simulations? Save these plots
+and turn them in when you complete the lab.</item>
+<item>With your critically damped 
+<m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>p</m:mi>
+    </m:msub>
+  </m:math> and
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>d</m:mi>
+    </m:msub>
+  </m:math>
+parameters from above,
+add integral action by entering the value of 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>i</m:mi>
+    </m:msub>
+  </m:math>
+you found in step
+7. Perform a 3000 count step and save the response plot.</item>
+<item>Change the control algorithm to the second case (with the
+differentiator in an inner feedback loop), and plot and save the
+step response. What differences do you notice between this response
+and the case with the differentiator in the forward loop?</item>
+<item>Stop and exit the VI, power off the amplifier and PXI, and
+return all plant materials to the instructor.</item>
+</list>
+</section>
+<section id="id48471064">
+<title>Post-Lab</title>
+<list list-type="enumerated" id="id48471070">
+<item>What was the effect of 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>p</m:mi>
+    </m:msub>
+  </m:math>
+ in step 3 above? If you doubled
+your value of 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>p</m:mi>
+    </m:msub>
+  </m:math>
+ in this step what would you expect the natural
+frequency of the system to be? (You should show this
+mathematically)</item>
+<item>What was the effect of 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>d</m:mi>
+    </m:msub>
+  </m:math>
+ in step 4 above?</item>
+<item>What differences did you notice between the PD controller and
+the PID controller?</item>
+<item>What differences did you notice when the differentiator was
+in an inner feedback loop as opposed to the forward loop?</item>
+</list>
+</section>
+</section>
+</content>  
+</document>

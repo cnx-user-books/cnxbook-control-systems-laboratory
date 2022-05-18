@@ -1,0 +1,88 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Phase-Lead Compensation of a Rotational Rigid-Body System</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>56d43582-89ad-4a8f-bfcc-9fe5757500d1</md:uuid>
+</metadata>
+  <content>
+<section id="id9888703">
+<title>Phase-Lead Compensation of a Rotational Rigid-Body
+System</title>
+<section id="id31665431">
+<title>Objectives</title>
+<list list-type="enumerated" id="id47024902">
+<item>Use frequency domain techniques to design a phase-lead
+compensator for a rigid, rotational disk.</item>
+</list>
+</section>
+<section id="id12494745">
+<title>Pre-Lab</title>
+<list list-type="enumerated" id="id47024227">
+<item>Derive the equations of motion for the 1DOF rotational system that you will control in this lab. The plant configuration is shown below. The disk will be loaded with four 
+  <m:math>
+    <m:mn>0.5</m:mn>
+    <m:mrow>
+      <m:mi>k</m:mi>
+      <m:mi>g</m:mi>
+    </m:mrow>
+  </m:math> brass weights placed at a distance 
+  <m:math>
+    <m:mn>9.0</m:mn>
+    <m:mrow>
+      <m:mi>c</m:mi>
+      <m:mi>m</m:mi>
+    </m:mrow>
+  </m:math> from the center of rotation.</item>
+</list>
+<figure id="element-539"><media id="idp646288" alt=""><image src="../../media/plantconfig.jpg" mime-type="image/jpeg"/></media>
+<caption>Rotational Rigid Body Plant Configuration</caption></figure>
+<list list-type="enumerated" id="id48447022">
+<item>Design and simulate a phase-lead compensator that satisfies
+the following performance specifications:
+<list list-type="enumerated" id="id48503304">
+<item>Zero steady-state error to a step input.</item>
+<item>Gain margin
+  <m:math>
+    <m:mo>≥</m:mo>
+    <m:mn>15</m:mn>
+    <m:mo> </m:mo>
+    <m:mrow>
+      <m:mi>d</m:mi>
+      <m:mi>b</m:mi>
+    </m:mrow>
+  </m:math></item>
+<item>Phase Margin   
+  <m:math>
+    <m:mo>≥</m:mo>
+    <m:mn>4</m:mn>
+    <m:msup>
+      <m:mn>5</m:mn>
+      <m:mi>o</m:mi>
+    </m:msup>
+  </m:math>
+</item>
+</list></item>
+</list>
+</section>
+<section id="id48503030">
+<title>Lab Procedure</title>
+<list list-type="enumerated" id="id48511305">
+<item>Configure the plant for this experiment.</item>
+<item>Code your phase-lead compensator into the control loop
+VI.</item>
+<item>Perform a 3000 count step input, and save the plot.</item>
+<item>Perform a ramp input with a velocity of 1000 counts/second
+and a dwell time of 3 seconds. Save the plot.</item>
+</list>
+</section>
+<section id="id47894144">
+<title>Post-Lab</title>
+<list list-type="enumerated" id="id31453067">
+<item>What was the system's steady-state error to the ramp input?
+What would you expect it to be for a parabolic input?</item>
+<item>Explain how gain margin and phase margin relate to a system's
+stability.</item>
+</list>
+</section>
+</section>
+  </content>
+  
+</document>

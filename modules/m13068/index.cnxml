@@ -1,0 +1,64 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+<title>Self-Erecting Inverted Pendulum on a Rotating Base</title>
+<metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>2d61a5c6-ebaf-4492-9f94-4e4973a93ac3</md:uuid>
+</metadata>
+
+<content>
+  <section id="SelfErectingPendulumRotatingBase"><title>Self-Erecting Inverted Pendulum on a Rotating Base</title>
+    <section id="Objectives"><title>Objectives</title>
+      <list list-type="enumerated" id="ObjectivesList">
+        <item>Understand the dynamics of an inverted pendulum with a rotating base.</item>
+        <item>Use state feedback to control on unstable system.</item>
+        <item>Code a self-erecting control algorithm into LabVIEW which automatically switches to inverted pendulum control.</item>
+      </list>
+    </section>
+    <section id="Pre-Lab"><title>Pre-Lab</title>
+      <list list-type="enumerated" id="Pre-LabList">
+        <item>Derive the equations of motion for both a non-inverted and inverted pendulum with a rotating base as shown in the figure below:
+          <figure id="pendelumfigure">
+            <media id="idp7757520" alt=""><image src="../../media/inverpendulumrotate.jpg" mime-type="image/jpeg"/></media>
+            <caption>Inverted Pendulum with a Rotating Base</caption>
+          </figure>
+          <figure id="pendelumparams">
+            <media id="idp6007728" alt=""><image src="../../media/invertpendulumparam.jpg" mime-type="image/jpeg"/></media>
+            <caption>Inverted Pendulum with a Rotating Base Parameters</caption>
+          </figure>
+        </item>
+        <item>Find the transfer function of the non-inverted system.</item>
+        <item>Design and simulate a PD controller that adds energy to the system to provide the self-erecting action.</item>
+        <item>Find a state-space realization of the inverted system.</item>
+        <item>Design and simulate a state feedback compensator that stabilizes the system and satisfies the following performance specifications for a step input:
+          <list list-type="enumerated" id="FeedbackCompensatorDesignSpecs">
+            <item>Percent overshoot  
+  <m:math>
+    <m:mo>≤</m:mo>
+    <m:mn>5</m:mn>
+    <m:mo>%</m:mo>
+  </m:math>
+</item>
+            <item>Settling time   <m:math>
+    <m:mo>≤</m:mo>
+    <m:mn>1.0</m:mn>
+    <m:mi>sec</m:mi>
+  </m:math>
+</item></list>
+        </item>
+      </list>
+    </section> 
+    <section id="LabProcedure"><title>Lab Procedure</title>
+      <list list-type="enumerated" id="LabProcedureSteps">
+        <item>Configure the plant for this experiment.</item>
+        <item>Code your self-erecting controller into the control loop VI.</item>
+        <item>Before proceeding to the inverted system controller, test your self-erecting algorithm to make sure that it executes correctly.</item>
+        <item>Once you have achieved the self-erecting action, code your controller for the inverted system into the VI. Your VI should be written such that the controller for the inverted system automatically takes over once the pendulum is near the inverted position.</item> 
+        <item>Run the VI and after carefully checking for stability, execute a 1000 count step input and save the plot.</item>
+      </list>
+    </section>
+    <section id="Post-Lab"><title>Post-Lab</title>
+      <list list-type="enumerated" id="Post-LabSteps">
+        <item>Look at your step response plot. What do you notice about the initial direction of the base disk's displacement? Can you explain why this happens in terms of the closed-loop system's zero(s).</item>
+      </list>
+    </section>
+  </section>
+</content>
+</document>

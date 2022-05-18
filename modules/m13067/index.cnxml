@@ -1,0 +1,75 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+<title>State Feedback Compensation of a 2DOF Rectilinear System</title>
+<metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>c3bef7d5-aedd-4245-b518-34af874c0fb8</md:uuid>
+</metadata>
+<content>
+<section id="id2841753">
+<title>State Feedback Compensation of a2DOF Rectilinear
+System</title>
+<section id="id10078079">
+<title>Objectives</title>
+<list list-type="enumerated" id="id10029088">
+<item>Design, simulate, and implement a state feedback compensator
+for a 2DOF mass-spring system.</item>
+</list>
+</section>
+<section id="id9666584">
+<title>Pre-Lab</title>
+<list list-type="enumerated" id="id9190309">
+<item>Derive the equations of motion for the 2DOF rectilinear
+mass-spring. The plant configuration is shown below. The first and
+second mass carriages are free and the third is clamped. The medium
+stiffness spring is connecting the first and second carriages, and
+the low stiffness spring is connecting the second and third.
+<figure id="id10079642">
+<media id="idp5951248" alt=""><image src="../../media/Graphic1-cad0" mime-type="image/jpeg"/></media>
+<caption>2DOF Spring-Mass System</caption>
+</figure></item>
+<item>Find a state-space realization of the system.</item>
+<item>Design and simulate a full state feedback compensator to
+control the position of the second mass carriage. Design your
+compensator to meet the following performance specifications:
+<list list-type="enumerated" id="id9228510"><item>Percent overshoot 
+  <m:math>
+    <m:mo>≤</m:mo>
+    <m:mn>10</m:mn>
+    <m:mo>%</m:mo>
+  </m:math>
+</item>
+<item>Settling time
+   <m:math>
+    <m:mo>≤</m:mo>
+    <m:mn>1</m:mn>
+    <m:mi>sec</m:mi>
+  </m:math></item>
+<item>Zero steady-state error to a step input.</item>
+</list></item>
+</list>
+</section>
+<section id="id9598734">
+<title>Lab Procedure</title>
+<list list-type="enumerated" id="id9919122">
+<item>Configure the plant as shown in Fig. 1 above.</item>
+<item>Code your state feedback compensator into the control loop
+VI.</item>
+<item>Perform a 3000 count step input and determine if you have met
+the performance specifications.</item>
+<item>Once you have achieved the desired performance, save your
+plot and turn it in with the rest of your work.</item>
+</list>
+</section>
+<section id="id10044446">
+<title>Post-Lab</title>
+<list list-type="enumerated" id="id9919103">
+<item>Explain how the state feedback gains affect the system's
+response in terms of its characteristic equation.</item>
+<item>What effect does the compensator have on the zero(s) of the
+system? If a system has an undesirable zero, how can its effect be
+reduced using only a state feedback compensator?</item>
+<item>Why is full state feedback compensation often unfeasible
+especially with higher-order systems?</item>
+</list>
+</section>
+</section>
+</content>
+</document>

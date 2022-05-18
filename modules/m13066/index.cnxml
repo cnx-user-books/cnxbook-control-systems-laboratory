@@ -1,0 +1,820 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+<title>System Identification for the Rectilinear Plant</title>
+<metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>fa980910-3ee2-4804-91be-572fa98da97a</md:uuid>
+</metadata>
+<content>
+  <section id="SystemIDRectilinearPlant"><title>System Identification for the Rectilinear Plant</title>
+    <section id="Objectives"><title>Objectives</title>
+      <list list-type="bulleted" id="objectives">
+        <item>Review of the behavior of second-order systems</item>
+        <item>Understand the importance of system identification</item>
+        <item>Understand the concept of hardware gain and why it will play a crucial role in controller design</item>
+    </list>
+    </section>
+    <section id="prelab"><title>Pre-Lab</title>
+      <list list-type="enumerated" id="prelablist">
+        <item>Derive the equations of motion for the 1DOF spring-mass system with friction damping shown below and find the transfer function. Simulate the unforced, natural response in LabVIEW to an initial displacement of   <m:math>
+    <m:mn>3.0</m:mn>
+    <m:mrow>
+      <m:mi>c</m:mi>
+      <m:mi>m</m:mi>
+    </m:mrow>
+  </m:math> (look for the Initial Response function in the Control Design Toolkit). Determine the natural frequency from the plot. Use the following parameters: 
+  <m:math>
+    <m:mi>M</m:mi>
+    <m:mo>=</m:mo>
+    <m:mn>3.0</m:mn>
+    <m:mrow>
+      <m:mi>k</m:mi>
+      <m:mi>g</m:mi>
+    </m:mrow>
+  </m:math>
+  <m:math>
+    <m:mi>k</m:mi>
+    <m:mo>=</m:mo>
+    <m:mn>350</m:mn>
+    <m:mi>N</m:mi>
+    <m:mo>/</m:mo>
+    <m:mi>m</m:mi>
+  </m:math>
+
+  <m:math>
+    <m:mi>c</m:mi>
+    <m:mo>=</m:mo>
+    <m:mn>4.0</m:mn>
+    <m:mi>Nsec</m:mi>
+    <m:mo>/</m:mo>
+    <m:mi>m</m:mi>
+  </m:math>
+          <figure id="SpringMass">
+            <media id="idm9984288" alt=""><image src="../../media/spring-mass.jpg" mime-type="image/jpeg"/></media>
+            <caption>1DOF Spring-Mass System with Friction Damping</caption>
+          </figure>
+        </item>
+      </list>
+
+    </section>
+    <section id="LabProcedure"><title>Lab Procedure</title>
+      <list list-type="enumerated" id="LabProcedureList">
+        <item>Power on the PXI, and while it's booting up configure the plant as explained in the next step.</item>
+        <item>Clamp the second and third mass carriages, and attach the medium stiffness spring between the first and second carriage as shown in Fig. 2. Secure four   <m:math>
+    <m:mn>0.5</m:mn>
+    <m:mrow>
+      <m:mi>k</m:mi>
+      <m:mi>g</m:mi>
+    </m:mrow>
+  </m:math>
+brass weights to the first and second carriages.
+           <figure id="PlantConfig">
+             <media id="idm809808" alt=""><image src="../../media/plantconfigurations.jpg" mime-type="image/jpeg"/></media>
+             <caption>Rectilinear Plant System ID Configurations</caption>
+           </figure>
+        </item>
+        <item>Start LabVIEW on your host PC and target the RT system.</item>
+        <item>Open the <emphasis>Lab 2 - Rectilinear System Identification.vi</emphasis> file, enter a loop time of 0.005 seconds, and then run the VI. Also, turn on the amplifier now.</item>
+        <item>Reset the encoders if necessary and enter the parameters to execute a zero amplitude step with a dwell time of  <m:math>
+    <m:mn>4000</m:mn>
+    <m:mrow>
+      <m:mi>m</m:mi>
+      <m:mi>s</m:mi>
+    </m:mrow>
+  </m:math>. Prepare to manually displace the first mass carriage. When you are ready, execute the step command, and manually displace the first carriage approximately   
+  <m:math>
+    <m:mn>3</m:mn>
+    <m:mrow>
+      <m:mi>c</m:mi>
+      <m:mi>m</m:mi>
+    </m:mrow>
+  </m:math>, 
+then release it. Observe the natural response of the carriage, and wait for the system to finish executing the trajectory and acquiring the data.</item>
+        <item>Recall that for underdamped systems, the damped natural frequency is related to the undamped natural frequency through the following relationship:
+
+<equation id="undampednatural">
+<m:math>
+   <m:msub>
+     <m:mi>ω</m:mi>
+     <m:mn>d</m:mn>
+   </m:msub>
+<m:mo>=</m:mo>
+  <m:msub>
+   <m:mi>ω</m:mi>
+   <m:mn>n</m:mn>
+  </m:msub>
+<m:msqrt>
+<m:mi>1</m:mi>
+<m:mo>-</m:mo>
+  <m:msup>
+   <m:mi>ζ</m:mi>
+   <m:mn>2</m:mn>
+  </m:msup>
+</m:msqrt>
+</m:math>
+</equation>
+
+and it follows that
+
+<equation id="undampednaturalmod">
+ <m:math>
+   <m:msub>
+     <m:mi>ω</m:mi>
+     <m:mn>n</m:mn>
+   </m:msub>
+<m:mo>=</m:mo>
+ <m:mfrac> 
+<m:mrow> 
+ <m:msub>
+   <m:mi>ω</m:mi>
+   <m:mn>d</m:mn>
+  </m:msub>
+</m:mrow>
+<m:mrow>
+<m:msqrt>
+<m:mi>1</m:mi>
+<m:mo>-</m:mo>
+  <m:msup>
+   <m:mi>ζ</m:mi>
+   <m:mn>2</m:mn>
+  </m:msup>
+</m:msqrt>
+</m:mrow> 
+</m:mfrac> 
+
+</m:math>
+</equation>
+
+Therefore, for light damping (small values of ζ)
+
+<equation id="approx">
+<m:math>
+  <m:msub>
+     <m:mi>ω</m:mi>
+     <m:mn>n</m:mn>
+   </m:msub>
+<m:mo>≈</m:mo>
+ <m:msub>
+   <m:mi>ω</m:mi>
+   <m:mn>d</m:mn>
+  </m:msub>
+
+
+</m:math>
+</equation>
+
+          For the purposes of plant identification, you may assume that the damping due to friction in the system is sufficiently small to satisfy the above condition. 
+
+Plot the encoder 1 position data and calculate the natural frequency of this system in both   <m:math>
+    <m:mi>H</m:mi>
+    <m:mi>z</m:mi>
+  </m:math>
+and
+  <m:math>
+    <m:mrow>
+      <m:mi>r</m:mi>
+      <m:mi>a</m:mi>
+      <m:mi>d</m:mi>
+    </m:mrow>
+    <m:mo>/</m:mo>
+    <m:mi>sec</m:mi>
+  </m:math>
+. Call this value 
+  <m:math>
+    <m:msub>
+      <m:mi>ω</m:mi>
+      <m:msub>
+        <m:mi>n</m:mi>
+        <m:mi>m11</m:mi>
+      </m:msub>
+    </m:msub>
+  </m:math>
+(the subscript
+<m:math>
+    <m:mi>m11</m:mi>
+  </m:math> denotes mass #1 trial #1). Use only oscillations with amplitude greater than 1000 counts in your calculation. This is because smaller amplitudes start to become dominated by nonlinear friction effects.</item>
+        <item>Remove the four brass weights and repeat steps 5 and 6 to obtain  
+ <m:math>
+    <m:msub>
+      <m:mi>ω</m:mi>
+      <m:msub>
+        <m:mi>n</m:mi>
+        <m:mi>m12</m:mi>
+      </m:msub>
+    </m:msub>
+  </m:math>
+ for the unloaded carriage. Decrease the execution time if necessary.</item>
+        <item>Measure the initial cycle amplitude 
+  <m:math>
+    <m:msub>
+      <m:mi>X</m:mi>
+      <m:mn>0</m:mn>
+    </m:msub>
+  </m:math>
+ and the last cycle amplitude   
+  <m:math>
+    <m:msub>
+      <m:mi>X</m:mi>
+      <m:mi>n</m:mi>
+    </m:msub>
+  </m:math>
+for the n cycles measured in Step 6. Using relationships associated with the logarithmic decrement find the damping ratio (call it
+
+<m:math>
+ <m:msub>
+   <m:mi>ζ</m:mi>
+       <m:mn>m12</m:mn>
+  </m:msub>
+</m:math>) as
+
+<equation id="approx1"><m:math>
+
+<m:mfrac><m:mrow><m:mi> ζ </m:mi>
+
+</m:mrow><m:mrow><m:msqrt><m:mrow><m:mn>1</m:mn>
+
+<m:mo>-</m:mo><m:msup><m:mi>ζ</m:mi> <m:mn>2</m:mn></m:msup></m:mrow></m:msqrt>
+
+</m:mrow></m:mfrac>
+
+<m:mo>=</m:mo><m:mfrac><m:mrow><m:mn>1</m:mn>
+
+</m:mrow><m:mrow><m:mn>2</m:mn>
+
+<m:mi>pi</m:mi><m:mi>n</m:mi></m:mrow></m:mfrac><m:mo lspace="0em" rspace="thinmathspace">ln</m:mo><m:mfrac><m:mrow><m:msub><m:mi>X</m:mi> <m:mn>0</m:mn></m:msub>
+
+</m:mrow><m:mrow><m:msub><m:mi>X</m:mi> <m:mi>n</m:mi></m:msub>
+
+</m:mrow></m:mfrac><m:mo>-</m:mo><m:mi>ζ</m:mi><m:mo>≈</m:mo><m:mfrac><m:mrow><m:mn>1</m:mn>
+
+</m:mrow><m:mrow><m:mn>2</m:mn>
+
+<m:mi>pi</m:mi><m:mi>n</m:mi></m:mrow></m:mfrac><m:mo lspace="0em" rspace="thinmathspace">ln</m:mo><m:mfrac><m:mrow><m:msub><m:mi>X</m:mi> <m:mn>0</m:mn></m:msub>
+
+</m:mrow><m:mrow><m:msub><m:mi>X</m:mi> <m:mi>n</m:mi></m:msub>
+
+</m:mrow></m:mfrac>
+
+</m:math></equation>
+</item>
+
+
+
+
+
+
+        <item>Configure the plant as shown in Fig. 2b where the first mass carriage is now clamped and the second is free. Repeat steps 5 through 8 for the second mass carriage to obtain
+<m:math>
+ <m:msub>
+   <m:mi>ω</m:mi>
+      <m:msub>
+       <m:mn>n</m:mn>
+       <m:mn>m21</m:mn>
+      </m:msub>
+  </m:msub>
+</m:math>
+ ,
+
+<m:math>
+ <m:msub>
+   <m:mi>ω</m:mi>
+      <m:msub>
+       <m:mn>n</m:mn>
+       <m:mn>m22</m:mn>
+      </m:msub>
+  </m:msub>
+</m:math>
+
+ and 
+  <m:math>
+    <m:msub>
+      <m:mi>ζ</m:mi>
+      <m:mi>m22</m:mi>
+    </m:msub>
+  </m:math>
+. How does this damping ratio compare with that for the first mass? Be sure to save this plotted data as it will be used in the next experiment.</item>
+        <item>Connect the mass carriage extension bracket and dashpot to the second mass as shown in Fig. 2c, and load four brass weights onto the second mass carriage. Open the damping (air flow) adjustment knob 2.0 turns from the fully closed position. Perform the necessary steps to obtain   
+  <m:math>
+    <m:msub>
+      <m:mi>ζ</m:mi>
+      <m:mi>d</m:mi>
+    </m:msub>
+  </m:math> 
+where the "d" subscript denotes the dashpot. For this calculation use amplitudes   
+  <m:math>
+    <m:mo>≥</m:mo>
+  </m:math> 
+500 counts.</item>
+
+        <item>Each brass weight has a mass of <m:math>
+    <m:mn>0.5</m:mn>
+    <m:mo>±</m:mo>
+    <m:mn>0.01</m:mn>
+    <m:mrow>
+      <m:mi>k</m:mi>
+      <m:mi>g</m:mi>
+    </m:mrow>
+  </m:math>. (You may weigh the pieces if a more precise value is desired). Call the mass of the four weights combined   
+  <m:math>
+    <m:msub>
+      <m:mi>m</m:mi>
+      <m:mi>w</m:mi>
+    </m:msub>
+  </m:math>.  Recall that the dynamics for a second-order system in terms of the Laplace variable   <m:math>
+    <m:mi>s</m:mi>
+  </m:math> is given by
+
+  <m:math display="block">
+    <m:msup>
+      <m:mi>s</m:mi>
+      <m:mn>2</m:mn>
+    </m:msup>
+    <m:mo>+</m:mo>
+    <m:mn>2</m:mn>
+    <m:mi>ζ</m:mi>
+    <m:msub>
+      <m:mi>ω</m:mi>
+      <m:mi>n</m:mi>
+    </m:msub>
+    <m:mi>s</m:mi>
+    <m:mo>+</m:mo>
+    <m:msubsup>
+      <m:mi>ω</m:mi>
+      <m:mi>n</m:mi>
+      <m:mn>2</m:mn>
+    </m:msubsup>
+  </m:math>
+Compare the above with the equations of motion you derived in terms of mass, damping coefficient, and spring constant (
+  <m:math>
+    <m:mi>m</m:mi>
+  </m:math>,
+  <m:math>
+    <m:mi>c</m:mi>
+  </m:math>, and
+  <m:math>
+    <m:mi>k</m:mi>
+  </m:math>). Use your knowledge of second-order systems along with your recorded values of 
+  <m:math>
+    <m:msub>
+      <m:mi>ω</m:mi>
+      <m:msub>
+        <m:mi>n</m:mi>
+        <m:mi>m11</m:mi>
+      </m:msub>
+    </m:msub>
+  </m:math>
+ and 
+  <m:math>
+    <m:msub>
+      <m:mi>ω</m:mi>
+      <m:msub>
+        <m:mi>n</m:mi>
+        <m:mi>m12</m:mi>
+      </m:msub>
+    </m:msub>
+  </m:math>
+ to solve for the unloaded carriage mass   
+  <m:math>
+    <m:msub>
+      <m:mi>m</m:mi>
+      <m:mi>c1</m:mi>
+    </m:msub>
+  </m:math>, and spring constant   
+  <m:math>
+    <m:mi>k</m:mi>
+  </m:math>.  
+  <m:math display="block"/>
+Repeat these calculations for the trials involving the second mass carriage and spring, mc2 and k.   
+   <m:math display="block"/>
+Since the same spring was used in the experiments, the values for   
+  <m:math>
+    <m:mi>k</m:mi>
+  </m:math> that result from the above calculations should be very close. You may use the average of the two for all future calculations and experiments. Call this value   
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mrow>
+        <m:mi>m</m:mi>
+        <m:mi>e</m:mi>
+        <m:mi>d</m:mi>
+      </m:mrow>
+    </m:msub>
+  </m:math> to denote the medium stiffness spring.  
+<m:math display="block"/>Now with your recorded values for 
+  <m:math>
+    <m:mi>ζ</m:mi>
+  </m:math> calculate   
+  <m:math>
+    <m:msub>
+      <m:mi>c</m:mi>
+      <m:mn>1</m:mn>
+    </m:msub>
+  </m:math>, the damping coefficient for the first mass carriage.  
+<m:math display="block"/>Repeat this calculation to find the damping coefficient for the second mass carriage,
+  <m:math>
+    <m:msub>
+      <m:mi>c</m:mi>
+      <m:mn>2</m:mn>
+    </m:msub>
+  </m:math>.  
+<m:math display="block"/>Finally, calculate the damping coefficient of the dashpot,
+  <m:math>
+    <m:msub>
+      <m:mi>c</m:mi>
+      <m:mi>d</m:mi>
+    </m:msub>
+  </m:math>.</item> 
+        <item>Remove the carriage extension bracket and dashpot from the second mass carriage, replace the medium stiffness spring with the high stiffness spring, and perform the necessary steps to obtain the resulting natural frequency   
+  <m:math>
+    <m:msub>
+      <m:mi>ω</m:mi>
+      <m:mi>m23</m:mi>
+    </m:msub>
+  </m:math>. Repeat this frequency measurement using the least stiff spring to obtain   
+  <m:math>
+    <m:msub>
+      <m:mi>ω</m:mi>
+      <m:mi>m24</m:mi>
+    </m:msub>
+  </m:math>.Now you can compute   
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>high</m:mi>
+    </m:msub>
+  </m:math> and 
+  <m:math>
+
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mrow>
+        <m:mi>l</m:mi>
+        <m:mi>o</m:mi>
+        <m:mi>w</m:mi>
+      </m:mrow>
+    </m:msub>
+  </m:math>.
+   <m:math display="block">
+   </m:math>
+All dynamic parameters have been identified! Values for   
+  <m:math>
+    <m:msub>
+      <m:mi>m</m:mi>
+      <m:mi>c1</m:mi>
+    </m:msub>
+  </m:math> and   
+  <m:math>
+    <m:msub>
+      <m:mi>m</m:mi>
+      <m:mi>c2</m:mi>
+    </m:msub>
+  </m:math> for any configuration of masses may be found by adding the calculated mass contribution of the weights to that of the unloaded carriages. Be sure that you have filled in all of the system parameters in the table provided before proceeding.
+
+<note id="idm1378784">The following is necessary to establish the hardware gain for control modeling purposes.</note>
+</item>
+        <item>Remove the spring connecting the first and second carriages and secure four   
+   <m:math>
+    <m:mn>0.5</m:mn>
+    <m:mrow>
+      <m:mi>k</m:mi>
+      <m:mi>g</m:mi>
+    </m:mrow>
+  </m:math> brass weights onto the first carriage. Using the stop blocks, secure the second mass carriage clear from the first, and remove any stop blocks that are constraining the first carriage. Verify that the masses are secure and that the carriage slides freely. Position the first mass approximately 
+  <m:math>
+    <m:mn>3</m:mn>
+    <m:mrow>
+      <m:mi>c</m:mi>
+      <m:mi>m</m:mi>
+    </m:mrow>
+  </m:math> to the left (negative 
+  <m:math>
+    <m:msub>
+      <m:mi>x</m:mi>
+      <m:mn>1</m:mn>
+    </m:msub>
+  </m:math> position) of its center of travel.</item>
+        <item>Perform a 
+
+  <m:math>
+    <m:mn>2.0</m:mn>
+    <m:mi>V</m:mi>
+  </m:math> bidirectional step with a dwell time of 
+  <m:math>
+    <m:mn>75</m:mn>
+    <m:mrow>
+      <m:mi>m</m:mi>
+      <m:mi>s</m:mi>
+    </m:mrow>
+  </m:math> (recall that on the PXI, 
+  <m:math>
+    <m:mo>±</m:mo>
+    <m:msup>
+      <m:mn>2</m:mn>
+      <m:mn>15</m:mn>
+    </m:msup>
+  </m:math> counts corresponds to a voltage of 
+  <m:math>
+    <m:mo>±</m:mo>
+    <m:mn>10</m:mn>
+    <m:mi>V</m:mi>
+  </m:math>).</item>
+<item>Plot the velocity data and observe the four segments of the profile with nominal shapes of: linear increase (constant acceleration), nearly constant velocity (zero acceleration), linear decrease (constant deceleration), and constant. Obtain the acceleration from the linear, positive-sloped segment of the velocity profile. Repeat this for the negative-sloped segment. You may call these two values 
+  <m:math>
+    <m:msub>
+      <m:mover>
+        <m:mi>x</m:mi>
+        <m:mo>..</m:mo>
+      </m:mover>
+      <m:mrow>
+        <m:mn>1</m:mn>
+        <m:msub>
+          <m:mi>e</m:mi>
+          <m:mrow>
+            <m:mi>a</m:mi>
+            <m:mi>c</m:mi>
+            <m:mi>c</m:mi>
+          </m:mrow>
+        </m:msub>
+      </m:mrow>
+    </m:msub>
+  </m:math> and 
+  <m:math>
+    <m:msub>
+      <m:mover>
+        <m:mi>x</m:mi>
+        <m:mo>..</m:mo>
+      </m:mover>
+      <m:mrow>
+        <m:mn>1</m:mn>
+        <m:msub>
+          <m:mi>e</m:mi>
+          <m:mrow>
+            <m:mi>d</m:mi>
+            <m:mi>e</m:mi>
+            <m:mi>c</m:mi>
+          </m:mrow>
+        </m:msub>
+      </m:mrow>
+    </m:msub>
+  </m:math>, respectively. Be sure that you account for the scaling of velocity data that is shown on the front panel graph indicator, and remember to include units in your calculation.Calculate the average of the magnitudes of the positive and negative accelerations (call this value 
+  <m:math>
+    <m:msub>
+      <m:mover>
+        <m:mi>x</m:mi>
+        <m:mo>..</m:mo>
+      </m:mover>
+      <m:mrow>
+        <m:mn>1</m:mn>
+        <m:mi>e</m:mi>
+      </m:mrow>
+    </m:msub>
+  </m:math>) to be used in obtaining   
+<m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mrow>
+        <m:mi>h</m:mi>
+        <m:mi>w</m:mi>
+      </m:mrow>
+    </m:msub>
+  </m:math>below.</item>
+        <item>Recall that the hardware gain for this system is given by 
+
+  <m:math display="block">
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mrow>
+        <m:mi>h</m:mi>
+        <m:mi>w</m:mi>
+      </m:mrow>
+    </m:msub>
+    <m:mo>=</m:mo>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>c</m:mi>
+    </m:msub>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>a</m:mi>
+    </m:msub>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>t</m:mi>
+    </m:msub>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mrow>
+        <m:mi>m</m:mi>
+        <m:mi>p</m:mi>
+      </m:mrow>
+    </m:msub>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mrow>
+        <m:mi>e</m:mi>
+        <m:mi>p</m:mi>
+      </m:mrow>
+    </m:msub>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>e</m:mi>
+    </m:msub>
+  </m:math>where  
+ 
+   <m:math display="block">
+   </m:math>
+   <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>c</m:mi>
+    </m:msub>
+  </m:math>, the DAC gain, = 
+  <m:math>
+    <m:mrow>
+      <m:mi>10</m:mi>
+      <m:mi>V</m:mi>
+    </m:mrow>
+    <m:mo>/</m:mo>
+    <m:mn>32</m:mn>
+    <m:mi>,</m:mi>
+    <m:mn>768</m:mn>
+  </m:math> DAC counts
+
+   <m:math display="block">
+   </m:math>
+   <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>a</m:mi>
+    </m:msub>
+  </m:math>, the servo amp gain, = to be determined 
+  <m:math>
+    <m:mi>Amps</m:mi>
+    <m:mo>/</m:mo>
+    <m:mi>V</m:mi>
+  </m:math>
+
+  <m:math display="block">
+   </m:math>
+   <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>t</m:mi>
+    </m:msub>
+  </m:math>, the servo motor torque constant, = to be determined   
+  <m:math>
+    <m:mrow>
+      <m:mi>N</m:mi>
+      <m:mi>m</m:mi>
+    </m:mrow>
+    <m:mo>/</m:mo>
+    <m:mrow>
+      <m:mi>A</m:mi>
+      <m:mi>m</m:mi>
+      <m:mi>p</m:mi>
+    </m:mrow>
+  </m:math>
+
+   <m:math display="block">
+   </m:math>
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mrow>
+        <m:mi>m</m:mi>
+        <m:mi>p</m:mi>
+      </m:mrow>
+    </m:msub>
+  </m:math>, the motor pinion pitch radius inverse, = 
+  <m:math>
+    <m:mn>26.25</m:mn>
+    <m:msup>
+      <m:mi>m</m:mi>
+      <m:mrow>
+        <m:mo>-</m:mo>
+        <m:mn>1</m:mn>
+      </m:mrow>
+    </m:msup>
+  </m:math>
+
+   <m:math display="block">
+   </m:math>
+   <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mrow>
+        <m:mi>e</m:mi>
+        <m:mi>p</m:mi>
+      </m:mrow>
+    </m:msub>
+   </m:math>, the encoder pinion pitch radius inverse, = 
+   <m:math>
+    <m:mn>89</m:mn>
+    <m:msup>
+      <m:mi>m</m:mi>
+      <m:mrow>
+        <m:mo>-</m:mo>
+        <m:mn>1</m:mn>
+      </m:mrow>
+    </m:msup>
+  </m:math>
+
+   <m:math display="block"/>
+   <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>e</m:mi>
+    </m:msub>
+  </m:math>, the encoder gain, =   
+  <m:math>
+    <m:mn>16</m:mn>
+    <m:mi>,</m:mi>
+    <m:mn>000</m:mn>
+  </m:math> pulses/2  
+  <m:math>
+    <m:mi>π</m:mi>
+  </m:math>radians
+   <m:math display="block"/>
+Using what you have learned about hardware gain, calculate a
+value for the product 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>a</m:mi>
+    </m:msub>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>t</m:mi>
+    </m:msub>
+  </m:math>. Use this value to compute the hardware gain 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mrow>
+        <m:mi>h</m:mi>
+        <m:mi>w</m:mi>
+      </m:mrow>
+    </m:msub>
+  </m:math>.</item>
+        <item>Save any files or plots of interest. Stop and exit the VI,
+power off the amplifier and PXI, and return all plant materials to
+the instructor.</item>
+</list>
+
+</section>
+<section id="postlab">
+<title>Post-Lab</title>
+<list list-type="enumerated" id="postlablist">
+<item>Complete the table below making sure to include units.<figure id="postlabtable"><media id="idm3149920" alt=""><image src="../../media/postlab.jpg" mime-type="image/jpeg"/></media><caption>Post Lab Table</caption>
+</figure></item>
+<item>How do your values of  
+   <m:math>
+    <m:msub>
+      <m:mi>m</m:mi>
+      <m:mi>c1</m:mi>
+    </m:msub>
+  </m:math> and
+  <m:math>
+    <m:msub>
+      <m:mi>c</m:mi>
+      <m:mn>1</m:mn>
+    </m:msub>
+  </m:math>
+ compare with 
+ <m:math>
+    <m:msub>
+      <m:mi>m</m:mi>
+      <m:mi>c2</m:mi>
+    </m:msub>
+  </m:math>
+ and 
+  <m:math>
+    <m:msub>
+      <m:mi>c</m:mi>
+      <m:mn>2</m:mn>
+    </m:msub>
+  </m:math>. Can
+you explain why they may be different?</item>
+<item>What were your values for 
+  <m:math>
+    <m:msub>
+      <m:mi>ζ</m:mi>
+      <m:mi>m12</m:mi>
+    </m:msub>
+  </m:math>
+  and
+  <m:math>
+    <m:msub>
+      <m:mi>ζ</m:mi>
+      <m:mi>m22</m:mi>
+    </m:msub>
+  </m:math>
+
+ Are these values
+sufficiently small for the approximations made in steps 6 and 8 to
+be valid?</item>
+<item>Explain the importance of accurately identifying the plant
+parameters and hardware gain in terms of how they will affect
+controller design.</item>
+</list>
+</section>
+</section>
+</content>
+</document>

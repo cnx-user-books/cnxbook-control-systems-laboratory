@@ -1,0 +1,362 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+<title>Collocated / Noncollocated Control of 2DOF Rectilinear System</title>
+<metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>48d4cc58-a1c4-4eeb-be7a-b975d4e65a2e</md:uuid>
+</metadata>
+<content>
+<section id="id48522214">
+<title>Collocated / Noncollocated Control of 2DOF Rectilinear
+System</title>
+<section id="id47871167">
+<title>Objectives</title>
+<list list-type="bulleted" id="id31644834">
+<item>Implement a PD controller for a 2DOF system with a
+oscillatory mode.</item>
+<item>Understand the limitations of PD/PID control for higher order
+systems.</item>
+<item>Design, simulate, and implement a noncollocated controller
+with multiple feedback loops to acquire an acceptable response for
+the system.</item>
+</list>
+</section>
+<section id="id47894200">
+<title>Pre-Lab</title>
+<list list-type="enumerated" id="id47651506">
+<item>Consider the system shown below. Both mass carriages are
+loaded with four <m:math>
+    <m:mn>0.5</m:mn>
+    <m:mrow>
+      <m:mi>k</m:mi>
+      <m:mi>g</m:mi>
+    </m:mrow>
+  </m:math> brass weights and the medium stiffness
+spring is connecting them.<figure id="element-141">
+<media id="idp14624032" alt=""><image src="../../media/plant.jpg" mime-type="image/jpeg"/></media>
+<caption>2DOF Plant Configuration</caption></figure>
+Derive the equations of motion for this system and rewrite them so that
+the control effort is   <m:math>
+    <m:mi>u</m:mi>
+    <m:mo>⁡</m:mo>
+    <m:mfenced>
+      <m:mi>t</m:mi>
+    </m:mfenced>
+  </m:math>
+ (DAC counts) and the respective
+positions, velocities, and accelerations are:
+  <m:math>
+    <m:msub>
+      <m:mi>x</m:mi>
+      <m:mrow>
+        <m:mn>1</m:mn>
+        <m:mi>e</m:mi>
+      </m:mrow>
+    </m:msub>
+  </m:math>, 
+  <m:math>
+    <m:msub>
+      <m:mover>
+        <m:mi>x</m:mi>
+        <m:mo>.</m:mo>
+      </m:mover>
+      <m:mrow>
+        <m:mn>1</m:mn>
+        <m:mi>e</m:mi>
+      </m:mrow>
+    </m:msub>
+  </m:math>, 
+  <m:math>
+    <m:msub>
+      <m:mover>
+        <m:mi>x</m:mi>
+        <m:mo>..</m:mo>
+      </m:mover>
+      <m:mrow>
+        <m:mn>1</m:mn>
+        <m:mi>e</m:mi>
+      </m:mrow>
+    </m:msub>
+  </m:math>, 
+  <m:math>
+    <m:msub>
+      <m:mi>x</m:mi>
+      <m:mrow>
+        <m:mn>2</m:mn>
+        <m:mi>e</m:mi>
+      </m:mrow>
+    </m:msub>
+  </m:math>, 
+  <m:math>
+    <m:msub>
+      <m:mover>
+        <m:mi>x</m:mi>
+        <m:mo>.</m:mo>
+      </m:mover>
+      <m:mrow>
+        <m:mn>2</m:mn>
+        <m:mi>e</m:mi>
+      </m:mrow>
+    </m:msub>
+  </m:math>, 
+  <m:math>
+    <m:msub>
+      <m:mover>
+        <m:mi>x</m:mi>
+        <m:mo>..</m:mo>
+      </m:mover>
+      <m:mrow>
+        <m:mn>2</m:mn>
+        <m:mi>e</m:mi>
+      </m:mrow>
+    </m:msub>
+  </m:math>
+</item>
+
+
+<item>From your EOM derive the appropriate transfer function
+numerator and denominator polynomials   <m:math>
+    <m:msub>
+      <m:mi>N</m:mi>
+      <m:mn>1</m:mn>
+    </m:msub>
+    <m:mfenced>
+      <m:mi>s</m:mi>
+    </m:mfenced>
+  </m:math> ,
+
+  <m:math>
+    <m:msub>
+      <m:mi>N</m:mi>
+      <m:mn>2</m:mn>
+    </m:msub>
+    <m:mfenced>
+      <m:mi>s</m:mi>
+    </m:mfenced>
+  </m:math> , and 
+
+  <m:math>
+    <m:mi>D</m:mi>
+    <m:mo>⁡</m:mo>
+    <m:mfenced>
+      <m:mi>s</m:mi>
+    </m:mfenced>
+  </m:math>
+in the
+block diagram below:
+<figure id="element-142">
+<media id="idp10211024" alt=""><image src="../../media/model.jpg" mime-type="image/jpeg"/></media>
+<caption>PD + Notch Filter Control</caption></figure>
+</item>
+
+<item>Using root locus techniques, find the rate feedback gain   
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>v</m:mi>
+    </m:msub>
+  </m:math>  that provides satisfactory damping of the complex roots of the
+inner loop 
+  <m:math>
+    <m:msub>
+      <m:mi>x</m:mi>
+      <m:mn>1</m:mn>
+    </m:msub>
+    <m:mfenced>
+      <m:mi>s</m:mi>
+    </m:mfenced>
+    <m:mo>/</m:mo>
+    <m:msup>
+      <m:mi>R</m:mi>
+      <m:mo>*</m:mo>
+    </m:msup>
+    <m:mfenced>
+      <m:mi>s</m:mi>
+    </m:mfenced>
+  </m:math>.</item>
+
+<item>With   
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>v</m:mi>
+    </m:msub>
+  </m:math>
+ determined, you can now design for the system given
+by
+ <m:math>
+    <m:msup>
+      <m:mi>G</m:mi>
+      <m:mo>*</m:mo>
+    </m:msup>
+    <m:mfenced>
+      <m:mi>s</m:mi>
+    </m:mfenced>
+  </m:math>
+ in the block diagram. Design a notch filter,   
+  <m:math>
+    <m:msub>
+      <m:mi>G</m:mi>
+      <m:mi>n</m:mi>
+    </m:msub>
+    <m:mfenced>
+      <m:mi>s</m:mi>
+    </m:mfenced>
+    <m:mo>=</m:mo>
+    <m:msub>
+      <m:mi>N</m:mi>
+      <m:mi>n</m:mi>
+    </m:msub>
+    <m:mfenced>
+      <m:mi>s</m:mi>
+    </m:mfenced>
+    <m:mo>/</m:mo>
+    <m:msub>
+      <m:mi>D</m:mi>
+      <m:mi>n</m:mi>
+    </m:msub>
+    <m:mfenced>
+      <m:mi>s</m:mi>
+    </m:mfenced>
+  </m:math>
+ with two poles at
+  <m:math>
+    <m:mn>5.0</m:mn>
+    <m:mrow>
+      <m:mi>H</m:mi>
+      <m:mi>z</m:mi>
+    </m:mrow>
+  </m:math>
+ and two additional higher
+frequency poles at   
+  <m:math>
+    <m:mn>8.0</m:mn>
+    <m:mrow>
+      <m:mi>H</m:mi>
+      <m:mi>z</m:mi>
+    </m:mrow>
+  </m:math>, using   
+  <m:math>
+    <m:mi>ζ</m:mi>
+    <m:mo>=</m:mo>
+    <m:msqrt>
+      <m:mn>2</m:mn>
+    </m:msqrt>
+    <m:mo>/</m:mo>
+    <m:mn>2</m:mn>
+  </m:math>
+ for both poles. Place the
+zeros of   
+  <m:math>
+    <m:msub>
+      <m:mi>G</m:mi>
+      <m:mi>n</m:mi>
+    </m:msub>
+    <m:mfenced>
+      <m:mi>s</m:mi>
+    </m:mfenced>
+  </m:math>
+ such that they cancel the oscillatory poles of
+  <m:math>
+    <m:msup>
+      <m:mi>G</m:mi>
+      <m:mo>*</m:mo>
+    </m:msup>
+    <m:mfenced>
+      <m:mi>s</m:mi>
+    </m:mfenced>
+  </m:math>
+. Finally, normalize the notch filter transfer function to
+have unity DC gain.</item>
+<item>Write a LabVIEW VI that simulates this plant configuration
+with two differentcontrollers. Write your VI so it displays the
+response of both mass carriages.
+<list list-type="enumerated" id="id31627000">
+<item><emphasis>Collocated: </emphasis> Simulate your critically damped PD controller
+from Lab #3 where you are feeding back the position of the first
+carriage. Use the PD controller with the differentiator in the
+inner feedback loop. With these gains, what do you notice about the
+behavior of the second mass carriage? Remember to record these
+gains so you can implement them in the lab. Now iteratively reduce
+the controller gains until you are able to achieve minimal
+overshoot for both carriages (try for less than 
+  <m:math>
+    <m:mn>10</m:mn>
+    <m:mo>%</m:mo>
+  </m:math>
+) with as fast a
+response as possible. Again, don't forget to record the
+gains.</item>
+<item><emphasis>Noncollocated:</emphasis> Simulate the controller you designed in steps
+3 and 4 above. Find   
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>p</m:mi>
+    </m:msub>
+  </m:math>
+and  
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mi>d</m:mi>
+    </m:msub>
+  </m:math>
+to meet rise time and overshoot less
+than 
+  <m:math>
+    <m:mn>0.5</m:mn>
+    <m:mi>sec</m:mi>
+  </m:math>
+and
+  <m:math>
+    <m:mn>10</m:mn>
+    <m:mo>%</m:mo>
+  </m:math>
+, respectively.</item>
+</list></item>
+</list>
+</section>
+<section id="id48515101">
+<title>Lab Procedure</title>
+<list list-type="enumerated" id="id47822156">
+<item>Configure the Model 210 plant for this experiment. Be sure to
+check that you are using the medium stiffness spring between the
+first and second carriages.</item>
+<item>Code the two controller structures (collocated PD and
+noncollocated PD + notch filter) into the LabVIEW control loop.
+Again, you can use a case selector to easily switch between the two
+algorithms.</item>
+<item>Implement the high-gain controller from step 5.1 of the
+pre-lab and perform a 3000 count step and save the plot. Notice the
+behavior of the second mass carriage. Gently displace the carriages
+and note the relative stiffness of the servo system at the first
+mass.</item>
+<item>Now implement the low-gain controller from step 5.1 and
+perform a 3000 count step and save the plot. Manually displace the
+first and second masses and note their relative stiffness. Are they
+generally more or less stiff than for the controller from the step
+above? How does the speed compare to the high-gain controller? How
+about the steady-state error?</item>
+<item>Now implement your noncollocated PD + notch filter controller
+from step 5b of the pre-lab and perform a 3000 count step; save the
+plot. From the response plot, determine the rise time and overshoot
+of the second mass carriage.</item>
+</list>
+</section>
+<section id="id48497448">
+<title>7.4 Post-Lab</title>
+<list list-type="enumerated" id="id48499179">
+<item>What was the predominant behavior of the second mass carriage
+with the highgain collocated PD controller? Can you give an
+explanation for the difference in the responses of the two masses
+in terms of their closed-loop transfer functions?</item>
+<item>What differences did you observe in the responses between the
+low-gain and high-gain collocated PD controllers?</item>
+<item>What was the rise time and overshoot for your noncollocated
+PD + notch filter controller. Was this better or worse than you
+were able to achieve with the collocated controllers? How did the
+steady-state error of the system for this controller compare to
+that of the low-gain collocated PD controller?</item>
+</list>
+</section>
+</section>
+</content>
+</document>

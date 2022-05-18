@@ -1,0 +1,114 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+<title>Control Lab Setup: Choosing Control System Hardware and Software</title>
+<metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>dbf588a2-e62b-4911-a139-fcc408702cfb</md:uuid>
+</metadata>
+<content>
+<section id="id6138925">
+<title>Choosing Lab Equipment</title>
+<section id="id9642032">
+<title>Software</title>
+<section id="id10414523">
+<title>National Instruments Applications and Toolkits</title>
+<list list-type="bulleted" id="id10495052"><item>LabVIEW 7.1, 8.0, or 8.2 Full Development System</item>
+<item>LabVIEW Real Time ETS or RTX (more detail under <emphasis>Choosing Lab Hardware</emphasis>)</item>
+<item>LabVIEW Control Design Toolkit</item>
+<item>LabVIEW Simulation Module</item>
+<item>LabVIEW FPGA</item>
+</list>
+</section>
+<section id="id10245693">
+<title>National Instruments Drivers:</title>
+<list list-type="bulleted" id="id10006862"><item>LabVIEW Device Driver CDs </item>
+<item>NI-RIO Driver CD</item>
+</list>
+</section>
+<section id="id6701565">
+<title>Venturecom Applications</title>
+<list list-type="bulleted" id="id6150079"><item>Real Time eXtention for Windows (RTX) (Optional)</item></list>
+</section>
+</section>
+<section id="id10250830">
+<title>Choosing Lab Hardware</title>
+<para id="id9741967">The lab currently uses the hardware laid out as option one (1) below, LabVIEW Real-Time Module for ETS with PXI hardware.  However, there are several hardware combinations that can be used for implementation of a Real-Time system to control ETS
+plants using LabVIEW. These options each have their own benefits.
+The options have been broken down by Real Time OS software
+support.</para>
+<section id="id3255815">
+<title>LabVIEW Real-Time Module for ETS</title>
+<para id="id9837553">The LabVIEW Real-Time Module for ETS targets
+is for real-time devices that use a single dedicated kernel running
+embedded code. This option can be purchased from National
+Instruments for real-time PXI targets. It is also used for desktop
+PCs running as a dedicated real-time target.
+
+<figure id="id9741775"><media id="idm12888848" alt=""><image src="../../media/Graphic1.png" mime-type="image/png"/></media>
+<caption>LabVIEW Real Time for ETS Options</caption></figure>
+
+</para><para id="element-802">1. This option consists of a Windows PC communicating with a PXI real-time controller running LabVIEW Real-Time OS.  The PXI-7831R intelligent data acquisition board is connected to the controller through the PXI bus.  Control loops can be executed on both the Real-Time controller and on the intelligent data acquisition board.  The <link resource="ECP-RIO_Adapter.pdf">ECP-RIO Adapter cable </link> connects the 68pin VHDCI connector from the MIO connector on the PXI-7831R to the round encoder cable connected directly to the ECP plant.  The banana plugs connect to the motor drive inputs on the front of the ECP Power supply.  The ECP Amplifier is then connected to one of ECP's mechanical plants.
+
+
+</para><para id="element-67">PXI provides a portable computing and acquisition solution that is rugged and rated for enviormnets where normal PC's can't go, making it ideal for both laboratory and research applications in many types of environments where determinism and reliability are crucial. </para><para id="element-394">   <link url="http://ohm.ni.com/advisors/pxi">PXI Control System (ETS) :: PXI Advisor for configuring a PXI system from National Instruments</link></para><para id="element-523">2.   This option consists of a Windows PC communicating with a second PC running LabVIEW Real-Time OS <link url="http://digital.ni.com/public.nsf/websearch/CB3434DA94466DD286256E9E006BB775">(Real-Time OS PC Requirements)</link>.  The PCI-7831R intelligent data acquisition board is connected to the PC through the PCI bus.  Control loops can be executed on both the Real-Time OS running on the PCI and in the RIO intelligent data acquisition board.  The <link resource="ECP-RIO_Adapter.pdf">ECP-RIO Adapter cable </link> connects the 68pin VHDCI connector from the MIO connector on the PXI-7831R to the round encoder cable connected directly to the ECP plant.  The banana plugs connect to the motor drive inputs on the front of the ECP Power supply.  The ECP Amplifier is then connected to one of ECP's mechanical plants.
+
+</para><para id="element-354">The Real-Time PC solution provides a lower cost real-time computing and acquisition platform that is ideal for laboratory and research applications, while still maintaining determinism and reliability.
+</para><para id="element-797"> <link url="http://digital.ni.com/express.nsf/bycode/exxu63">Real-Time PC (ETS) :: Real-Time Control System Bundle for Academia from National Instrumets</link></para>
+</section>
+<section id="id10326202">
+<title>The LabVIEW Real-Time Module for RTX</title>
+<para id="id10178598">The LabVIEW Real-Time Module for RTX targets
+is used with desktop PCs running RTX, a real-time extension for
+Windows. This real-time operating system runs in parallel with
+Windows on the same processor, providing a single box solution for
+both user interface and deterministic operations. The OS can be
+purchased from National Instruments or from Venturecom directly.
+LabVIEW for RTX is a single PC solution for Real Time
+processing.</para>
+<figure id="id9291071"><media id="idm5862304" alt=""><image src="../../media/Graphic2.png" mime-type="image/png"/></media>
+
+<caption>LabVIEW Real Time for RTX Options</caption></figure><para id="element-428">3.   This option consists of a Windows PC running Microsoft Windows, and Aredence's Realtime Extensions (RTX) (<link url="http://digital.ni.com/public.nsf/allkb/03BC0810E60CE93286256E7D007B61F5">Will my PC work with RTX?</link>)  Windows and RTX run on the same computer, sharing the same CPU, but applications run in RTX maintain real-time execution.  The PCI-7831R intelligent data acquisition board communicates with the PC through the standard PCI bus.  Control loops can be executed on both in RTX and on the intelligent data acquisition board.  The <link resource="ECP-RIO_Adapter.pdf">ECP-RIO Adapter cable </link> connects the 68pin VHDCI connector from the MIO connector on the PXI-7831R to the round encoder cable connected directly to the ECP plant.  The banana plugs connect to the motor drive inputs on the front of the ECP Power supply.  The ECP Amplifier is then connected to one of ECP's mechanical plants.</para><para id="element-680">The Real-Time RTX solution provides a single PC, low cost real-time computing and acquisition platform that is acceptable for laboratory applications.</para><para id="element-872"><link url="http://digital.ni.com/express.nsf/bycode/exxu63">Single PC (RTX) :: Real-Time Control System Software and Hardware Bundle for Academia from National Instruments</link></para>
+</section>
+<section id="id3145756">
+<title>Intellegent Data Acquision I/O Board :: PCI/PXI-7831R Reconfigurable Multifunction I/O Using the LabVIEW FPGA Module</title>
+<para id="id10297492">Each solution uses the National Instruments
+PCI-7831R Reconfigurable FPGA. The FPGA is most useful because it
+offers 8 analog inputs, 8 analog outputs, and 96 digital I/O lines
+making it scalable for both teaching applications and research. The
+on board FPGA can be given a fixed personality for student use, or
+can be reprogrammed with the LabVIEW FPGA Module specifically for
+your needs. PID control loop rates up to 200,000 Hz. The 7831R also
+allows custom safety features to be implemented in the FPGA to
+protect students and equipment. Because these safety features are
+implemented in hardware, they are not dependent on the stability of
+the code running on the PC or real-time OS.</para><para id="element-373"><link url="http://www.ni.com/pdf/manuals/370489b.pdf">
+User's Manual for the PCI-7831R and PXI-7831R</link></para><para id="element-245">The following instructions and pin outs detail the wiring between the NI 7831R FPGA board to the ECP amplifier box.  This cable is built and sold by National Instruments.  
+
+You can download the cable detail and pin outs here:  <link resource="ECP-RIO_Adapter.pdf">ECP Plant to NI RIO FPGA board (Download)</link></para>
+</section>
+<section id="id10418432">
+<title>ECP Hardware</title>
+<para id="id10192455">Please see ECP’s website for more
+information on ECP hardware options.</para>
+<para id="id10423604">
+<link url="http://www.ecpsystems.com/controls_family.htm">ECP Systems Website</link>
+</para>
+</section>
+</section>
+</section>
+<section id="id5754143">
+<title>Lab Setup</title>
+<section id="id6641010">
+<title>Software Installation</title>
+<para id="id7098078"><link resource="Software_Installation_Notes.doc">Step-by-step control system software installation instructions (Download)</link>
+</para>
+</section>
+
+
+
+
+
+
+
+
+
+</section>
+</content>
+</document>

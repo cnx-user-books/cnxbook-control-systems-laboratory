@@ -1,0 +1,253 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+<title>Introduction to Lab Hardware and LabVIEW Implementation</title>
+<metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>813570b7-7714-47b6-a8a3-ba8ebff92a7a</md:uuid>
+</metadata>
+<content>
+<section id="id27197349">
+<title>Introduction to Lab Hardware and LabVIEW
+Implementation</title>
+<section id="id27162410">
+<title>Objectives</title>
+<list list-type="bulleted" id="id27171178">
+<item>Become familiar with how the lab hardware works</item>
+<item>Understand how the LabVIEW control loop block diagram
+executes</item>
+<item>Gain experience in interacting with the VI front panel</item>
+</list>
+</section>
+<section id="id27171205">
+<title>Pre-Lab</title>
+<para id="id27171212">1. In your own words, describe how the
+implementation VI's block diagram executes. More specifically,
+explain the execution when the system is idle and when a reference
+trajectory is commanded.</para>
+</section>
+<section id="id27171222">
+<title>Lab Procedure</title>
+<section id="id27171229">
+<title>Using the Model 210 Rectilinear Plant</title>
+<list list-type="enumerated" id="id27171237">
+<item>Connect the drive motor and encoder feedback cables to the
+Model 210 plant.</item>
+<item>Unclamp the first mass carriage and remove any springs that
+may be connected to it. Be sure to position the stop bumpers to
+allow maximum range of motion for the carriage. Load four 0:5kg
+brass weights onto the carriage. In this configuration the carriage
+acts as a rigid-body system.</item>
+<item>Clamp the other two mass carriages by moving the stop bumpers
+inward so they constrain the motion of the carriage. You will need
+to use a 1/4 inch spacer nut between the mass carriage and stop
+bumpers so as to not engage the limit switches.</item>
+<item>Power on the PXI by pressing the rectangular button located
+at the bottom left corner of its front face. Wait approximately 30
+seconds for the system to boot up.</item>
+<item>Run LabVIEW on your host PC.</item>
+<item>Target the PXI real-time embedded controller by selecting RT
+Target: 146.6.105.x
+<note id="idp161568"> (the IP address of your PXI system) from the Execution Target drop-down menu on the LabVIEW startup screen. Wait for LabVIEW to establish a connection.</note></item>
+<item>Now click the Open button on the LabVIEW startup screen and
+locate the file named Lab 1 - Intro to Lab Hardware.vi. The VI
+front panel should look like the one in Fig. 1.</item>
+</list>
+
+<figure id="element-32"><title>LabVIEW</title>
+<media id="idp1993584" alt=""><image src="../../media/app.jpg" mime-type="image/jpeg"/></media>
+<caption>VI Front Panel</caption></figure><list list-type="enumerated" id="id27171344">
+<item>Enter a loop time of 0.005 seconds then run the VI by
+clicking on the arrow button at the top-left corner of the front
+panel (because of the way that the VI's block diagram is written,
+you must enter the loop time before running the VI. If you wish to
+change the loop time, you must stop the VI, enter the new loop
+time, and then run the VI again). At this time, the VI code will be
+downloaded from the host PC to the PXI. When downloading is
+complete, the VI will automatically begin executing on the RT
+system. At this time, the control loop is being run solely on the
+PXI's real-time embedded controller, not your host PC. However, a
+communications loop is running between the two systems to allow the
+user to interact with front panel activities.
+<note id="idm8358176"> The communications loop is part of the LabVIEW Real-Time Development system. You do not see its code anywhere in the VI</note></item>
+<item>Manually displace the first mass carriage and observe the
+position measure- ment being shown by the Encoder 1 indicator on
+the front panel. Notice that even when the amplifier box is powered
+off, the encoders still make measurements. The Encoder 2 and
+Encoder 3 indicators correspond to the second and third mass
+carriages, respectively. The Encoder 4 indicator is for the
+pendulum accessory and will be used later in the course.</item>
+<item>Whenever you wish to set the encoder readings to zero, simply
+press the Reset Encoders control located on the front panel. Try
+this now.</item>
+<item>Now manually displace the first mass carriage until you
+engage one of the limit switches. Notice how the System Error
+indicator lights up. At this point, if any voltage were being
+output to the drive motor, it would be set to zero and remain there
+until you press the Clear Error control on the front panel. Press
+this control now and observe how the System Error indicator light
+turns off.</item>
+<item>You are now going to send a commanded trajectory to the
+plant. First, power on the amplifier box by pressing the black
+button. Also, center the first mass carriage between the two stop
+bumpers and then reset the encoders.</item>
+<item>Now press the Command Trajectory control on the front panel.
+The front panel for the Test Signals.vi subVI will pop open. Click
+through the different types of test signals you can command the
+system with, and notice the different parameters that you can
+change for each signal. Choose one of the signals and enter values
+for its parameters. Then click on the Preview Trajectory control
+and observe the signal on the graph indicator. Notice the effect of
+selecting the Bidirectional Inputs control on signals for which you
+specify more than one repetition.</item>
+<item>Choose a sinusoidal signal with an amplitude of 1640 counts.
+This amplitude corresponds to an input of 0.5 Volts to the drive
+motor and 2.6 Newtons to the mass carriage, nominally. You will
+learn how to calculate these exact values in the next lab. Set the
+frequency to 2Hz, and repeat the signal 8 times. Preview the
+trajectory to check that it is what you expected (it is always good
+practice to preview the test signal before you execute it to make
+sure you know exactly what will be commanded).</item>
+<item>Once you have confirmed that the commanded trajectory is
+correct, press the Execute Trajectory control. The Test Signals.vi
+front panel will close and the Executing Trajectory indicator on
+the main VI's front panel will light up. During this time you will
+see the plant responding to the command. When the trajectory is
+complete, the plot data will be computed, as shown by the Computing
+Plot Data indicator. Once complete, you may choose which
+trajectories you wish to view by selecting the corresponding check
+box. If necessary, use the zoom features for the graph indicator to
+get a better view of the data. Also, select the cursor tool and
+drag the cursor over the response plot.</item>
+<item>Notice that time and amplitude data is shown in the cursor
+legend. This feature will become useful for performing calculations
+in later labs. Take a look at the response of the first mass
+carriage which you just commanded. Since no control algorithm was
+implemented, you are looking at the open-loop response of the
+system.</item>
+<item>If you wish to save the data to a spreadsheet file, enter a
+filename in the file path box and press the Save Raw Data control.
+Note that this only saves the time, reference trajectory, control
+effort, and encoder data, not the velocity or acceleration. The
+file will be saved to the hard drive on the PXI. You can use an FTP
+client to download the file to your host PC. The file can be
+imported by any application that can handle spreadsheets such as
+Excel or Matlab.</item>
+<item>Also, you can save the response plot for later viewing or
+inserting into a report. The easiest way to do this is to simply
+right click on the plot and choose the Copy Data option (this
+option will be under the Data Operations menu if the VI is not
+running). Then just paste the figure into an image editing program
+(such as Paint) or a word processing application that can handle
+embedded images. Unchecking the Autoscale Y Axis option will help
+ensure that the pasted image will look the same as it does on the
+VI front panel. Save the plot of the reference trajectory and
+response of the first mass carriage that you just commanded and
+hand it in with the rest of your work.</item>
+<item>You are now finished with the introduction to using LabVIEW
+with the Model 210 plant. Press the Abort Control button on the
+front panel and turn off the amplifier. At this time take a few
+minutes to connect the springs and dashpot to the mass carriages so
+you will be familiar with this process in future labs. The springs
+are available in three stiffnesses that you will determine in the
+next lab. The damping provided by the dashpot can be varied by
+turning the knob located at the end. Turning it counterclockwise
+decreases the damping while turning it clockwise increases the
+damping. For a given dashpot setting, you can determine the damping
+coefficient experimentally, as you will see in the next lab.</item>
+<item>When you are finished turn off the amplifier box. 4.3.2 Using
+the Model 205 Torsional Plant</item>
+<item>Connect the drive motor and encoder feedback cables to the
+Model 205 plant.</item>
+<item>Mount disks to all three locations. When mounting a disk at
+the uppermost location, always be sure that you mount the disk on
+the underside of the center mounting hub. The bottom and middle
+disks should be mounted on top of the mounting hub. You should
+mount the disks so that the side with the concentric circles is
+facing up.</item>
+<item>Load two 0:5kg brass weights onto the second disk so they
+both lie on the diameter line of the disk (i.e. 180o apart). Place
+the center of each weight 9:0cm from the center of the disk. You
+can determine this by looking at the concentric circles that have
+been cut into the disks. The inner most circle is 2:0cm from the
+center, and each successive circle occurs at 1:0cm intervals.
+<note id="idm1489504"> Whenever mounting weights onto the disks, the threaded locking nut needs to be positioned so that it falls into the groove on the underside of the disk. This helps prevent the weights from jittering around on the disk. The same should be done when clamping the disks as well.</note></item>
+<item>Now clamp the upper disk so that it cannot rotate.</item>
+<item>Take a look at the VI's block diagram. At the far left you
+will notice that the FPGA code we are referencing is that of the
+Model 210 (the reference is being established by the pink icon that
+says ECP 210 on it). However, the FPGA codes of the Model 210 and
+Model 205 are slightly different, so we wish to change this
+reference to that of the Model 205. Right click on the icon and
+choose Select Target VI. Then locate and select the ECP Timed
+(FPGA) sync 205.vi file. Once LabVIEW has established the
+reference, you will see the text on the icon change from ECP 210 to
+ECP 205. As a final step, right click the icon again and choose
+Refresh.</item>
+<item>Now save the VI by using the File drop-down menu (or
+alternately by pressing Ctrl + S on your keyboard). Then run the
+VI.</item>
+<item>Manually displace the first and second disks and observe the
+encoder measurements on the front panel. Notice that the encoders
+make positive measurements in the counterclockwise direction (with
+respect to a top view reference position). You will need to
+remember this for the future when you derive the torsional plant's
+equations of motion. When you are finished, reset the
+encoders.</item>
+<item>Now turn on the amplifier box.</item>
+<item>Suppose we wish to acquire and view the natural response of
+the system for a particular set of initial conditions. You can
+accomplish this by executing a step with zero amplitude (hence zero
+control effort is being input to the plant). Select a dwell time of
+4000ms. This will cause the system to acquire 8 seconds of data. To
+see why this is true, preview a step input with a nonzero amplitude
+and observe how the dwell time is defined for this type of
+input.</item>
+<item>Now execute the zero amplitude step and manually displace the
+first disk by approximately 45o, then release it. Wait for the VI
+to finish acquiring the data, and then plot the measurements from
+encoder 1 and 2. Try a different set of initial conditions (e.g.
+displace the two disks in opposing directions) and observe the
+response.</item>
+<item>Reset the encoders and execute a sine sweep with a 500 count
+amplitude (again, you will learn how to compute the drive motor
+voltage and torque corresponding to this amplitude in the next
+lab). Enter 0:1Hz and 10Hz as your start and end frequencies,
+respectively. Input a sweep time of 30 seconds and set the sweep
+method to logarithmic. When the sweep is complete, select to view
+the frequency response from the control on the front panel. This is
+a 2DOF spring, mass, damper system. Does the response look
+familiar? Save the plot of the disk 1 and 2 frequency responses and
+hand it in with the rest of your work.</item>
+<item>You are now finished with you introduction to the Model 205
+plant. Stop the VI by hitting the Abort Control button and turn off
+the amplifier box.</item>
+<item>Close all VI windows and exit LabVIEW. Then turn off the
+PXI.</item>
+<item>Return all plant materials to the instructor.</item>
+</list>
+</section>
+</section>
+<section id="id27204511">
+<title>Post-Lab</title>
+<list list-type="enumerated" id="id27204519">
+<item>Consider a controller Gc(s) in series with a plant G(s) with
+unity negative feedback. Denote the reference input, tracking
+error, control effort, and output by R(s), E(s), U(s), and Y (s),
+respectively. Draw the block diagram for this system making sure to
+label all the signals.</item>
+<item>Now consider the hardware we have in the lab. Instead of
+having just Gc(s), G(s), etc, draw a diagram that shows each piece
+of lab hardware and which signal(s) it sends and/or receives. Your
+diagram should include at least the following:
+<list list-type="bulleted" id="id27204658">
+<item>mass carriages or torsion disks (choose either one)</item>
+<item>amplifier box</item>
+<item>PXI Reconfigurable I/O module</item>
+<item>Encoders</item>
+<item>drive motor</item>
+<item>PXI embedded controller</item>
+</list></item>
+<item>Be sure to label all forces/torques, displacements, and
+signals that occur in the system.</item>
+</list>
+</section>
+</section>
+</content>
+</document>

@@ -1,0 +1,232 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+<title>Control Systems Lab Introduction, Hardware, Software, and Safety</title>
+<metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>bf183195-4141-4d89-b414-32c1575ea4a3</md:uuid>
+</metadata>
+<content>
+<section id="id28179617">
+<title>Introduction</title>
+<section id="id28179625">
+<title>About this manual</title>
+<para id="id28179633">The purpose of this manual is to provide you,
+the student, with the laboratory procedures necessary for
+conducting the control system experiments in the ASE 170P course.
+You should by no means treat this manual as the sole source of
+information for the design and implementation process. You should
+rely on lecture notes, reference text, as well as their own
+knowledge of control theory, to develop and implement your control
+algorithms. This manual is only intended to provide an organized
+method for performing the experiments.</para>
+
+</section>
+<section id="id28179654">
+<title>Course Objectives</title>
+<list list-type="bulleted" id="id28179662">
+<item>To learn how to investigate the properties of physical
+systems both through simulation and experimentation.</item>
+<item>To learn how to perform hardware identification experiments
+on a physical plant.</item>
+<item>To learn how to design and analyze control systems through
+simulation using both classical and modern control
+techniques.</item>
+<item>To learn how to simulate control systems using both state
+space and transfer function representations.</item>
+<item>To learn how to implement custom control algorithms in
+LabVIEW.</item>
+<item>To further develop skills for working with others in an
+experimental environment.</item>
+</list>
+</section>
+<section id="id31511481">
+<title>Course Policies</title>
+<para id="id31511490"><emphasis>Doing Your Own Work</emphasis></para>
+<para id="id31511495">While you are encouraged to discuss theory
+and methods with other classmates, when it comes time to analyze,
+design, and implement your system, it must be done on your own. As
+an engineer you must always fully understand the problem you are
+trying to solve. Simply copying the work of others shows your lack
+of understanding of the problem. Remember, when you become an
+engineer working in industry, it is no longer just your grade that
+is at risk; your company's reputation, and more importantly other
+people's lives, are on the line. Any students caught in violation
+of these guidelines will be dealt with according to the
+university's policies on scholastic dishonesty.</para>
+<para id="id31511515"><emphasis>Late Work</emphasis></para>
+<para id="id31511520">Any work submitted late without a valid
+reason will not receive credit. If a student has a valid reason why
+an assignment must be submitted late, he/she should contact the
+instructor as soon as possible.</para>
+<para id="id31511532"><emphasis>Grading</emphasis></para>
+<para id="id31511538">When working in an experimental environment,
+results are always important, but so is your ability to communicate
+the information with others. Any work you submit should be neat,
+well organized, and easy to understand. Remember, your work is a
+demonstration of your ability to understand the material you are
+studying as well as a reflection of your organizational skills and
+attention to detail.</para>
+<para id="id31511549">The following guidelines will help ensure
+that you receive as much credit as possible for your work:</para>
+<list list-type="enumerated" id="id31511556">
+<item>Your derivation of the system's dynamic equations should be
+neat, easy to follow, and mathematically correct. In addition,
+remember to always draw a free-body diagram and label any system
+parameters and variables that will appear in your
+derivation.</item>
+<item>The process you use to design your controller should be well
+outlined. In other words, don't just hand in your final design;
+show the steps you took to arrive at that design.</item>
+<item>Any LabVIEW VI that you write should be well organized and
+easy to follow (e.g. avoid crossing wires whenever possible).
+Remember, the diagram code should follow well from left to right.
+Furthermore, a neat and well organized VI will make the debugging
+process easier for you should problems arise.</item>
+<item>When performing experiments in the lab, always record any
+important data that is acquired from the system; they may be
+necessary for calculations that you will need to perform
+later.</item>
+<item>Your answers to the post-lab questions should demonstrate
+that you fully understand all aspects of the experiment(s) you just
+performed. Also, remember that with experimentation there is often
+no "right" answer. You should answer the question based on your
+observations and the results obtained from your particular system,
+which may be very different than somebody else's.</item>
+</list>
+<para id="id31511617"><emphasis>Program Debugging</emphasis></para>
+<para id="id31511623">Some students tend to think of the instructor
+as a program debugging aid. You should try diligently to find your
+own errors before seeking assistance. Part of the objective of the
+computer assignments is to help you develop the ability to use the
+computer INDEPENDENTLY. You are not using the computer
+independently if someone else debugs your programs. You should only
+seek debugging assistance from the instructor if you have made a
+diligent effort to find your mistakes.</para>
+</section>
+</section>
+<section id="id31511642">
+<title>Lab Hardware</title>
+<para id="id31511650">The experiments for this course will be
+performed on plants from ECP (Educational Control Products), which
+will be controlled by a National Instruments PXI chassis equipped
+with an embedded real-time controller and a reconfigurable
+multifunction I/O module.</para>
+<section id="id31511660">
+<title>Model 210 Rectilinear Plant</title>
+<para id="id31511668">The <link url="http://www.ecpsystems.com/controls_torplant.htm">ECP Model 210 Rectilinear Plant</link> holds
+three mass carriages which can be loaded with brass weights and
+connected in a variety of configurations using springs of varying
+stiffness. The adjustable dashpot can be used to provide damping
+for the system. A single drive motor provides actuation to the
+system via the first mass carriage, and position measurements are
+taken by quadrature encoders.</para>
+<figure id="element-376"><title>ECP Model 210</title>
+<media id="idp940624" alt=""><image src="http://www.ecpsystems.com/subPageImages/lin.gif" mime-type="image/gif"/></media>
+<caption><link url="http://www.ecpsystems.com/controls_torplant.htm">ECP Model 210 Rectilinear Plant</link></caption></figure>
+</section>
+<section id="id31511690">
+<title>Model 205 Torsional Plant</title>
+<para id="id31511698">The <link url="http://www.ecpsystems.com/controls_recplant.htm">ECP Model 205 Torsional Plant</link> holds three
+disks each of which can be loaded with brass weights at varying
+positions. The disks are connected through their centers by thin
+rods giving the system rotational stiffness. A single driver motor
+actuates the system via the bottom disk, and quadrature encoders
+provide angular position measurements.</para><figure id="element-823"><title>ECP Model 205</title>
+<media id="idp10392272" alt=""><image src="http://www.ecpsystems.com/subPageImages/tors.gif" mime-type="image/gif"/></media>
+<caption><link url="http://www.ecpsystems.com/controls_recplant.htm">ECP Model 205 Torsional Plant</link></caption></figure>
+</section>
+<section id="id31511710">
+<title>A-51 Inverted Pendulum Accessory</title>
+<para id="id31511718">The <link url="http://www.ecpsystems.com/controls_pendassc.htm"> ECP A-51 Inverted Pendulum Accessory </link>consists of a cylindrical weight attached to a slender rod. The position of the weight can be varied therefore changing the center of gravity of the assembly. The rod attaches to a low friction pivot joint whose angular position is measured by a quadrature encoder. The base plate allows for the accessory to be mounted on both the Model 210 and Model 205 plants.</para>
+
+<figure id="element-686"><title>ECP A-51</title>
+<media id="idp6794288" alt=""><image src="http://www.ecpsystems.com/subPageImages/penasscMain.gif" mime-type="image/gif"/></media>
+<caption><link url="http://www.ecpsystems.com/controls_pendassc.htm">ECP A-51 Inverted Pendulum Accessory</link></caption></figure>
+</section>
+<section id="id31511753">
+<title>PXI-1042 Chassis</title>
+<para id="id31511761">The <link url="http://sine.ni.com/nips/cds/view/p/lang/en/nid/13906">National Instruments PXI-1031 chassis </link>
+provides a foundation to which a variety of PXI expansion modules
+can be added. This makes it a highly customizable measurement and
+testing platform.</para>
+<figure id="element-798"><title>NI PXI-1031</title>
+<media id="idp1041984" alt=""><image src="../../media/pxi1031.jpg" mime-type="image/jpeg"/></media>
+<caption><link url="http://sine.ni.com/nips/cds/view/p/lang/en/nid/13906">National Instruments PXI-1031 Chassis</link></caption></figure>
+</section>
+<section id="id31511781">
+<title>PXI-8186 Real-Time Embedded Controller</title>
+<para id="id31511788">The <link url="http://sine.ni.com/nips/cds/view/p/lang/en/nid/13447"> National Instruments PXI-8186</link> is a
+Pentium4-based, real-time embedded controller. In addition to
+having the ability to act as a Windows PC, the PXI-8186 can also
+run an NI developed, real-time operating system which allows it to
+work as a deployment platform for LabVIEW Real-Time
+applications.</para>
+<figure id="element-4"><title>NI PXI-8186</title>
+<media id="idp1647088" alt=""><image src="../../media/Controller.jpg" mime-type="image/jpeg"/></media>
+<caption><link url="http://sine.ni.com/nips/cds/view/p/lang/en/nid/13447">National Instruments PXI-8186 Embedded Controller</link></caption></figure>
+</section>
+<section id="id31511814">
+<title>PXI-7831R Reconfigurable Multifunction I/O</title>
+<para id="id31511821">The <link url="http://sine.ni.com/nips/cds/view/p/lang/en/nid/14757">National Instruments PXI-7831R
+Reconfigurable Multifunction I/O</link> is a module that can input and
+output both analog and digital signals. It is equipped with an FPGA
+(field processor gate array) which is configurable with the LabVIEW
+FPGA Module.</para>
+<figure id="element-728"><title>NI PXI-7831R</title>
+<media id="idp8734192" alt=""><image src="../../media/FPGA.jpg" mime-type="image/jpeg"/></media>
+<caption><link url="http://sine.ni.com/nips/cds/view/p/lang/en/nid/14757">National Instruments PXI-7831R Reconfigurable Multifunction I/O</link></caption></figure>
+</section>
+</section>
+<section id="id15369206">
+<title>Safety Procedures</title>
+<para id="id15369214">The following procedures are to help prevent
+damage to the lab equipment and also to ensure your safety. Be sure
+to read and understand all of the information in this section
+before performing any experiments. Should you ever have any
+questions regarding the operation of the lab hardware, do not
+hesitate to ask the instructor.</para>
+<section id="id15369224">
+<title>General Safety Precautions</title>
+<list list-type="bulleted" id="id15369233">
+<item>Always check to make sure that all of the system components
+(brass weights, disks, spring, etc) are securely fastened before
+powering on the ECP amplifier box and implementing your VI.</item>
+<item>Whenever you are reconfiguring the plant setup, always be
+sure to check that your VI is not running and that the amplifier
+box is turned off.</item>
+<item>When implementing an untested control algorithm, check for
+stability by using a long slender object (such as a ruler or
+unsharpened pencil) to apply gentle force to the mass/disk nearest
+to the drive motor.</item>
+<item>Do not disturb the system while it is executing a commanded
+trajectory.</item>
+<item>In the event of an emergency, shut off power to the system by
+pressing the red button on the amplifier box.</item>
+</list>
+</section>
+<section id="id15369282">
+<title>Hardware Limits on the Model 210</title>
+<para id="id15369290">Located near each mass carriage are two stop
+bumpers that prevent the carriage from exceeding their maximum
+allowable displacement. On each stop bumper is an electrical switch
+which sends out a signal when it is engaged. When the LabVIEW FPGA
+code receives this signal, it immediately outputs zero command
+voltage to the drive motor. This voltage remains zero until the
+error is cleared via the control loop VI's front panel.
+In addition to the limit switches, the FPGA
+code has been written to prevent overspeed / overvoltage of the
+drive motor. When the code detects overspeeding / overvolting of
+the motor, it will again output zero command voltage and remain
+there until the error has been cleared.</para>
+
+</section>
+<section id="id15369313">
+<title>Hardware Limits on the Model 205</title>
+<para id="id15369320">The FPGA code for the model 205 plant has
+been written to detect when the relative position between the first
+and second disks exceeds 3000 counts. This is to prevent damage to
+the torsional rod if a large torque is applied to the base disk.
+When this limit is exceeded, zero command voltage is output to the drive motor until the error is cleared.  Just as with the model 210 plant, the model 205 also has drive motor over-speed/overvoltage protection incorporated into the FPGA code.</para>
+
+
+</section>
+</section>
+</content>
+</document>

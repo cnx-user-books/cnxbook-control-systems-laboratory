@@ -1,0 +1,313 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>System Identification for the Torsional Plant</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>b137eadd-add9-42fa-ab76-d8324d9456e4</md:uuid>
+</metadata>
+  <content>
+<section id="id48510903">
+<title>System Identification for the Torsional Plant</title>
+<section id="id48510927">
+<title>Objectives</title>
+<list list-type="bulleted" id="id48505819">
+<item>Understand the dynamic equivalence between rotational and
+translational systems.</item>
+<item>Perform system identification using two different methods and
+compare the results.</item>
+</list>
+</section>
+<section id="id48505859">
+<title>Pre-Lab</title>
+<list list-type="enumerated" id="id48505872"><item>Assume that the least squares estimate has already been found
+for the unloaded and loaded sine sweep tests, so 
+  <m:math>
+    <m:msub>
+      <m:mover>
+        <m:mi>x</m:mi>
+        <m:mo>ˆ</m:mo>
+      </m:mover>
+      <m:mi>d1</m:mi>
+    </m:msub>
+  </m:math>, 
+
+  <m:math>
+    <m:msub>
+      <m:mover>
+        <m:mi>x</m:mi>
+        <m:mo>ˆ</m:mo>
+      </m:mover>
+      <m:mi>d2</m:mi>
+    </m:msub>
+  </m:math>, 
+
+  <m:math>
+    <m:msub>
+      <m:mover>
+        <m:mi>x</m:mi>
+        <m:mo>ˆ</m:mo>
+      </m:mover>
+      <m:mi>d3</m:mi>
+    </m:msub>
+  </m:math>, 
+
+  <m:math>
+    <m:msub>
+      <m:mover>
+        <m:mover>
+          <m:mi>x</m:mi>
+          <m:mo>ˉ</m:mo>
+        </m:mover>
+        <m:mo>ˆ</m:mo>
+      </m:mover>
+      <m:mi>d1</m:mi>
+    </m:msub>
+  </m:math>, 
+
+  <m:math>
+    <m:msub>
+      <m:mover>
+        <m:mover>
+          <m:mi>x</m:mi>
+          <m:mo>ˉ</m:mo>
+        </m:mover>
+        <m:mo>ˆ</m:mo>
+      </m:mover>
+      <m:mi>d2</m:mi>
+    </m:msub>
+  </m:math>, 
+
+  <m:math>
+    <m:msub>
+      <m:mover>
+        <m:mover>
+          <m:mi>x</m:mi>
+          <m:mo>ˉ</m:mo>
+        </m:mover>
+        <m:mo>ˆ</m:mo>
+      </m:mover>
+      <m:mi>d3</m:mi>
+    </m:msub>
+  </m:math> are known values. Formulate the linear least
+squares equation to estimate the 9 individual plant parameters. In other words, find the
+  <m:math>
+    <m:mi>y</m:mi>
+  </m:math> vector and 
+  <m:math>
+    <m:mi>H</m:mi>
+  </m:math> matrix that would go into the equation   
+  <m:math display="block">
+    <m:mi>y</m:mi>
+    <m:mo>=</m:mo>
+    <m:mrow>
+      <m:mi>H</m:mi>
+      <m:mi>x</m:mi>
+    </m:mrow>
+    <m:mo>+</m:mo>
+    <m:mi>ε</m:mi>
+    <m:mspace linebreak="newline"/>
+  </m:math>
+where the vector of parameters to be estimated, 
+  <m:math>
+    <m:mi>x</m:mi>
+  </m:math>, is defined as
+
+  <m:math display="block">
+    <m:mi>x</m:mi>
+    <m:mo>=</m:mo>
+    <m:mfenced close="]" open="[">
+      <m:mtable columnalign="center">
+        <m:mtr>
+          <m:mtd>
+            <m:msub>
+              <m:mi>J</m:mi>
+              <m:mi>d1</m:mi>
+            </m:msub>
+          </m:mtd>
+        </m:mtr>
+        <m:mtr>
+          <m:mtd>
+            <m:msub>
+              <m:mi>J</m:mi>
+              <m:mi>d2</m:mi>
+            </m:msub>
+          </m:mtd>
+        </m:mtr>
+        <m:mtr>
+          <m:mtd>
+            <m:msub>
+              <m:mi>J</m:mi>
+              <m:mi>d3</m:mi>
+            </m:msub>
+          </m:mtd>
+        </m:mtr>
+        <m:mtr>
+          <m:mtd>
+            <m:msub>
+              <m:mi>c</m:mi>
+              <m:mn>1</m:mn>
+            </m:msub>
+          </m:mtd>
+        </m:mtr>
+        <m:mtr>
+          <m:mtd>
+            <m:msub>
+              <m:mi>c</m:mi>
+              <m:mn>2</m:mn>
+            </m:msub>
+          </m:mtd>
+        </m:mtr>
+        <m:mtr>
+          <m:mtd>
+            <m:msub>
+              <m:mi>c</m:mi>
+              <m:mn>3</m:mn>
+            </m:msub>
+          </m:mtd>
+        </m:mtr>
+        <m:mtr>
+          <m:mtd>
+            <m:msub>
+              <m:mi>k</m:mi>
+              <m:mn>1</m:mn>
+            </m:msub>
+          </m:mtd>
+        </m:mtr>
+        <m:mtr>
+          <m:mtd>
+            <m:msub>
+              <m:mi>k</m:mi>
+              <m:mn>2</m:mn>
+            </m:msub>
+          </m:mtd>
+        </m:mtr>
+        <m:mtr>
+          <m:mtd>
+            <m:msub>
+              <m:mi>k</m:mi>
+              <m:mrow>
+                <m:mi>h</m:mi>
+                <m:mi>w</m:mi>
+              </m:mrow>
+            </m:msub>
+          </m:mtd>
+        </m:mtr>
+      </m:mtable>
+    </m:mfenced>
+    <m:mspace linebreak="newline"/>
+  </m:math>
+
+</item>
+<item>Outline the experimental steps you will take to identify the torsional plant using the second-order model method similar to Lab #2. Your procedure should allow you to find      
+  <m:math>
+    <m:msub>
+      <m:mi>J</m:mi>
+      <m:mi>d1</m:mi>
+    </m:msub>
+    <m:mi>,</m:mi>
+    <m:msub>
+      <m:mi>J</m:mi>
+      <m:mi>d3</m:mi>
+    </m:msub>
+    <m:mi>,</m:mi>
+    <m:msub>
+      <m:mi>c</m:mi>
+      <m:mn>1</m:mn>
+    </m:msub>
+    <m:mi>,</m:mi>
+    <m:msub>
+      <m:mi>c</m:mi>
+      <m:mn>3</m:mn>
+    </m:msub>
+    <m:mi>,</m:mi>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mn>1</m:mn>
+    </m:msub>
+    <m:mi>,</m:mi>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mn>2</m:mn>
+    </m:msub>
+    <m:mi>,</m:mi>
+  </m:math> and 
+  <m:math>
+    <m:msub>
+      <m:mi>k</m:mi>
+      <m:mrow>
+        <m:mi>h</m:mi>
+        <m:mi>w</m:mi>
+      </m:mrow>
+    </m:msub>
+  </m:math>. You may exclude the procedure for identifying the inertia and damping for disk 2. When formulating your procedures, remember that disks 2 and 3 can be clamped, disk 1 cannot.</item>
+</list>
+</section>
+<section id="id48505956">
+<title>Lab Procedure</title>
+<section id="id48505962">
+<title>System Identification Using Least Squares</title>
+<list list-type="enumerated" id="id48505406">
+<item>Configure the plant with all three disks rotating freely and
+no brass weights attached.</item>
+<item>Perform a 1638 count (0.5V) linear sine sweep from 
+  <m:math>
+    <m:mn>0</m:mn>
+  </m:math> to 
+  <m:math>
+    <m:mn>8</m:mn>
+    <m:mrow>
+      <m:mi>H</m:mi>
+      <m:mi>z</m:mi>
+    </m:mrow>
+  </m:math> with a sweep time of   
+  <m:math>
+    <m:mn>20</m:mn>
+  </m:math> seconds. When the execution is complete,
+enter a file name such as 
+  <m:math>
+    <m:mi mathvariant="italic">3DiskSweepUnloaded</m:mi>
+  </m:math> and save the raw data from the front panel.</item>
+<item>Now load two   
+   <m:math>
+    <m:mn>0.5</m:mn>
+    <m:mrow>
+      <m:mi>k</m:mi>
+      <m:mi>g</m:mi>
+    </m:mrow>
+  </m:math> brass weights onto each of the three disks
+so their centers are 
+  <m:math>
+    <m:mn>9.0</m:mn>
+    <m:mrow>
+      <m:mi>c</m:mi>
+      <m:mi>m</m:mi>
+    </m:mrow>
+  </m:math> from the axis of  rotation.</item>
+<item>Perform the sine sweep again. Enter a file name such as   
+  <m:math>
+    <m:mi mathvariant="italic">3DiskSweepLoaded</m:mi>
+  </m:math> and save the raw data.</item>
+<item>You are now ready to identify the system parameters using least squares estimation.</item>
+</list>
+</section>
+<section id="id48505678">
+<title>System Identification Using Second-Order Model</title>
+<list list-type="enumerated" id="id48505686">
+<item>Follow the steps you outlined in the pre-lab to identify the
+system parameters using the second-order model method.</item>
+</list>
+</section>
+</section>
+<section id="id48505700">
+<title>Post-Lab</title>
+<list list-type="enumerated" id="id48505707">
+<item>Complete the table below; remember to include units.
+<figure id="element-490"><media id="idm1050496" alt=""><image src="../../media/postlabtable.jpg" mime-type="image/jpeg"/></media>
+<caption> Post Lab Table </caption></figure>
+</item>
+<item>How close are your least-squares values compared to your
+second-order model values. Can you explain any discrepancies
+between them. Which method do you think is more accurate?</item>
+</list>
+</section>
+</section> 
+  </content>
+  
+</document>

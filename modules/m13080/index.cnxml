@@ -1,0 +1,257 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+<title>Control Lab Setup: Using LabVIEW to Control ECP Plants</title>
+<metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>12c31e7f-ca5d-4e5c-90a4-be342e807138</md:uuid>
+</metadata>
+<content>
+<section id="id14685362">
+<title>Using LabVIEW to Control ECP Plants</title>
+<para id="id14591715">This document provides a brief overview of
+how to use the National Instruments LabVIEW Virtual Instrument (VI)
+developed by The University of Texas at Austin Aerospace
+Engineering Controls Laboratory to perform control system
+experiments with the Educational Control Products (ECP) Model 210
+Rectilinear and Model 205 Torsional plants.</para>
+<section id="id14685306">
+<title>FPGA Personality VIs:</title>
+<section id="id14685312">
+<title>FPGA VI Specifics for each Plant</title>
+<para id="id14627601">The provided FPGA VIs contain the code for
+the reconfigurable I/O board which sends and receives signals, such
+as motor drive voltage and quadrature encoder channels, from the
+plants. Furthermore, the FPGA code incorporates safety features,
+such as motor overvoltage protection, to help prevent damage to the
+plants.</para>
+<para id="id14442471">The FPGA VIs for the two plants are similar
+but differ in the following ways:
+<list list-type="enumerated" id="id14442480">
+<item>For the Model 205 Torsional Plant, the A and B channels for
+encoder 3 have been switched due to the fact that the physical
+orientation of encoder 3 is opposite that of encoders 1 and
+2.</item>
+<item>The Model 205 Torsional Plant does not have limit switches,
+but to prevent damage to the torsion rods, the VI will write zero
+voltage to the drive motor in the event that the displacement
+between disks 1 and 2 or disks 2 and 3 exceeds 3000 counts (67.5
+degrees). The voltage will remain at zero until the error is
+cleared.
+
+<list list-type="bulleted" id="id14689720"><item>File Name of LabVIEW 8.0 Project: ECP 205 Project.lvproj (within LabVIEW 8.0 Starting Point.zip below)</item>
+<item>File Name of LabVIEW 7.1 Project: ECP 205.lep (within LabVIEW 7.1 Starting Point.zip below)</item>
+</list>
+</item>
+
+<item>The Model 210 Rectilinear Plant has limit switches to prevent
+damage due to excessive travel of the mass carriages. If a limit
+switch is engaged, the VI returns a value of true to an error
+indicator and writes zero voltage to the drive motor until the
+error is cleared.
+
+<list list-type="bulleted" id="id14625627"><item>File Name of LabVIEW 8.0 Project: ECP 210 Project.lvproj (within LabVIEW 8.0 Starting Point.zip below)</item>
+<item>File Name of LabVIEW 7.1 Project: ECP 210.lep (within LabVIEW 7.1 Starting Point.zip below)</item></list>
+</item>
+</list>
+</para>
+<note id="idp212160"> The FPGA personality can be dowloaded with example programs below under <link target-id="id14617772">Starting-Point VI’s for Each Plant</link>. </note><para id="id14625650">The FPGA VI for both plants incorporates
+drive motor overvoltage protection. If an overvoltage condition is
+detected, zero voltage will be written to the motor until the error
+is cleared.</para>
+<para id="id14626469">The portion of the code which interprets
+encoder signals has been written such that for the 210 plant, a
+displacement to the right results in a positive measurement. For
+the 205 plant, a positive measurement results from a
+counterclockwise disk displacement. When using the ECP pendulum
+accessory, a counterclockwise rotation will result in a positive
+encoder measurement (encoder 4).</para>
+<para id="id14626488">The portion of the code which sends signals
+to the drive motor has been written such that a positive control
+effort results in a counterclockwise (when viewed from the shaft)
+rotation of the drive motor. Therefore, for the 210 plant, this
+will result in an input force to the right. For the 205 plant, this
+will result in a clockwise input torque at the base disk.</para>
+<para id="id14481965">If you decide to write new FPGA code using
+the LabVIEW Embedded Project Manager, use the following tables as a
+reference for assigning FPGA channels:</para>
+
+<list list-type="bulleted" id="id14443054">
+<item>Note that if you use the ECP pendulum accessory and are
+required to connect the pendulum encoder cable manually to the
+terminal block inside the amplifier box, then you should connect
+the +5V and ground wire to pins 2 and 4, respectively, on the
+terminal block. This is due to the fact that the National
+Instruments ECP to RIO cable maps the +5V and ground channels for
+all the encoders to only pins 2 and 4 on the terminal block. ECP
+may instruct you to connect the +5V and ground wires for encoder 4
+to pins 1 and 3 on the terminal block; however, doing so will
+result in the encoder not receiving power.</item>
+<item><emphasis>Encoder Counts Per Revolution</emphasis>
+<list list-type="bulleted" id="id14728561">
+<item>Encoder 1: 16000 counts = 360 degrees</item>
+<item>Encoder 2: 16000 counts = 360 degrees</item>
+<item>Encoder 3: 16000 counts = 360 degrees</item>
+<item>Encoder 4: 16384 counts = 360 degrees (pendulum encoder)
+**</item>
+</list></item>
+</list>
+<note id="idm309776">See <link target-id="id14443054">special hook-up instructions</link> for the pendulum encoder on note above.  This only applies to the ECP pendulum attachment that requires bare wires to be hooked up inside the ECP Amplifier box.</note>
+</section>
+<section id="id14644554">
+<title>Autorunning FPGA VIs to Zero Analog Outputs:</title>
+<note id="idp1064976"> This must only be done once for the life of the FPGA Board.</note>
+<para id="id14644570">To ensure that the system has the correct
+power on states when the real-time target is booted but before the
+control loop VI is run, you should configure the target to autorun
+the FPGA VI at power on. To enable this feature, the “Autorun VI”
+option should be selected when building the FPGA project code.
+Then, in the LabVIEW Embedded Project Manager, select Tools
+&gt;&gt; Download VI or Attributes to Flash Memory. In this window,
+you can download the FPGA VI from the host machine to the flash
+memory on the target and configure autoload options. See Chapter 4
+of the LabVIEW FPGA Module User’s Manual for more
+information.</para>
+</section>
+</section>
+<section id="id14617764">
+<title>Using the Real-Time VI for Control System Experiments</title>
+<section id="id14617772">
+<title>Starting-Point VI’s for Each Plant</title>
+<list list-type="bulleted" id="element-538"><item>LabVIEW Real Time for ETS Example VIs
+<list list-type="bulleted" id="element-540"><item>ECP 205 and 210 LabVIEW 8.0 Project: <link resource="ECP_LabVIEW_8.0_Starting_Point.zip"> ECP_LabVIEW_8.0_Starting_Point.zip (download)</link> - FPGA personality included</item>
+
+<item>ECP 205 and 210 LabVIEW 7.1 Project: <link resource="ECP_LabVIEW_7.1_Starting_Point.zip"> ECP_LabVIEW_7.1_Starting_Point.zip (download)</link> - FPGA personality included</item>
+</list></item>
+<item>LabVIEW Real Time for RTX Example VIs
+<list list-type="bulleted" id="element-545"><item>ECP 210 Rectilinear Plant: not yet posted </item>
+<item>ECP 205 Torsional Plant: not yet posted </item>
+</list></item></list>
+
+<para id="id14626972"/>
+</section>
+<section id="id14626978">
+<title>Usage Instructions</title>
+<para id="id14626985">Extract all folders and VIs to a directory on
+your host PC. Be sure to keep the file and folder paths intact to
+avoid having to relocate VIs. The files in the FPGA VIs and Sub VIs
+folders do not need to be changed. Target your real-time device
+from the LabVIEW start-up screen and then open the example ECP 210
+1DOF PID.vi. You will see the front panel shown below:</para>
+<figure id="id14627011">
+<media id="idm97104" alt=""><image src="../../media/Graphic1-ae9b" mime-type="image/jpeg"/></media>
+
+<caption>LabVIEW front panel of example <link target-id="id14617772">ECP 210 1DOF PID.vi</link></caption></figure>
+<para id="id14229263">Take a few moments to familiarize yourself
+with the various controls and indicators that are available on the
+front panel.</para>
+<para id="id14229273">When you are ready, power on the ECP
+amplifier box and run the VI. Once the VI completes downloading to
+the PXI, the closed-loop system is active (or open-loop in the case
+of no controller). In this example, a PID controller is being used
+to control the position of a 1DOF rigid-body system. The first mass
+cart on the ECP Model 210 plant is loaded with four 0.5kg weights
+and no springs or dashpots are attached.</para>
+<figure id="id14229294">
+<media id="idm6419888" alt=""><image src="../../media/Graphic2" mime-type="image/png"/></media>
+
+<caption>Partial shot of the ECP Model 210 Plant</caption></figure>
+<para id="id14627632">You may apply a light external force to the
+mass cart and feel the controller respond by attempting to
+attenuate the disturbance. Also, notice that encoder position
+measurements are displayed on the front panel. Pressing the Reset
+Encoders control will set all the encoders back to 0.</para>
+<para id="id14627649">If any of the error conditions are detected
+(limit switches, drive motor overvoltage, etc), the VI will perform
+a safety shutdown and you will need to re-run it.</para>
+<para id="id14627656">If you wish to command a test signal to the
+system, press the Command Trajectory control. The Sub VI front
+panel shown below will pop open:</para>
+<figure id="id14627672">
+<media id="idm6424960" alt=""><image src="../../media/Graphic3" mime-type="image/jpeg"/></media>
+
+<caption>Command tragjectory interface</caption></figure>
+<note id="idp2691984"> The <emphasis>Test Signals</emphasis> feature is only available when using LabVIEW Real-Time for ETS, because of the additional overhead required for the interactive user interface.</note><para id="id14362549">Take a moment to tab through the various
+types of test signals that are available as well as what parameters
+you may prescribe for each signal. Selecting the bidirectional
+inputs option causes the commanded signal to alternate directions
+when more than one repetition is specified. You may always press
+the Preview Trajectory control to see a preview of the signal. When
+you are satisfied with your selection, press the Execute Trajectory
+control. The Sub VIs front panel will close and the signal will be
+sent to the system as the reference trajectory that is to be
+tracked.</para>
+<para id="id14362576">When the trajectory is complete, plot data
+will be calculated. This may take a few seconds depending on the
+duration of your specified trajectory. When the data calculation
+completes you may toggle on and off any trajectories that you wish
+to view on the graph indicator such as position, velocity, and
+acceleration. Note that the velocity and acceleration amplitudes
+have been scaled by 0.1 and 0.01, respectively, on the
+graph.</para>
+<para id="id14362598">Try using the graph indicator’s zoom options
+if you wish to zoom in on a portion of the graph.</para>
+<para id="id14362609">Toggling the cursor on brings up the cursor
+on the graph. You may lock the cursor to any of the 14 plot
+histories and click and drag on it to obtain point-by-point numeric
+data. The first number shown in the cursor legend is the time and
+the second is the amplitude for the plot to which you are currently
+locked.</para>
+<para id="id14362626">If you wish to save the data, enter a file
+name in the path control on the front panel and press the Save Raw
+Data control. This will save the time, reference signal, control
+effort, and four encoder position histories for the commanded
+trajectory; velocity and acceleration data are not saved. The file
+is saved as spreadsheet data on the PXI’s hard drive. You may use
+an FTP client of your choice to access the PXI and copy the file to
+your host machine.</para>
+<para id="id14626138">When you are finished with your experiment,
+press the Abort Control control on the front panel and the VI will
+shut down the control loop.</para>
+<para id="id14626145"><emphasis>Programming a Control Algorithm in the VI’s
+Block Diagram:</emphasis></para>
+<para id="id14626155">The Real-Time control loop VI has been
+written such that a variety of control algorithms can be
+implemented with little change to the VI’s block diagram code. The
+only change that needs to be made is the code that exists between
+the reference signal (desired position) and the control effort
+(analog output).</para>
+<para id="id14626173">Open the block diagram for the VI (shown
+below) to see how the PID controller for this example was
+implemented:</para>
+<figure id="id14626186">
+<media id="idp4831312" alt=""><image src="../../media/Graphic4" mime-type="image/jpeg"/></media>
+
+<caption>Partial block diagram view of Example VI <link target-id="id14617772">ECP 210 1DOF PID.vi</link></caption></figure>
+<para id="id14626213">The encoder measurement is subtracted from
+the reference signal to generate the error signal, which is sent
+through the PID algorithm. Finally, the control effort signal
+calculated by the PID is sent to the analog output channel that
+drives the plant motor.</para>
+<para id="id14626227">It can be seen that programming other
+controllers such as phase lead, LQR, etc could be easily
+accomplished by deleting the current algorithm and coding a new one
+in its place.</para>
+<para id="id14531221">To perform experiments for the open-loop case
+(useful when studying the system’s natural dynamics or when
+performing system identification), you may simply delete the
+feedback control algorithm and connect the reference trajectory
+point directly to the analog output. Recall that the analog output
+channels on the reconfigurable I/O board have a range of +10V to
+-10V and a 16-bit DAC resolution. Therefore, in the open-loop case,
+a command signal amplitude of -32768 to +32767 corresponds to -10V
+to +10V sent to the drive motor.</para>
+<para id="id14531243">Please refer to the following resources for
+more detailed plant dynamics and hardware descriptions:</para>
+<para id="id14531253">ECP Plant Manuals and National Instruments Resources: </para>
+<list list-type="bulleted" id="element-267"><item>Manual for Model 210/210a Rectilinear Control System (Instructor’s Edition)</item>
+<item>Manual for Model 205/205a Torsional Control System (Instructor’s Edition)</item>
+<item>National Instruments PCI/PXI 7831R Hardware: <link url="http://www.ni.com/pdf/manuals/370489b.pdf">
+http://www.ni.com/pdf/manuals/370489b.pdf</link></item>
+<item>Additional NI hardware and LabVIEW programming resources can be found on <link url="http://www.ni.com/">
+http://www.ni.com/</link></item></list>
+
+
+
+
+</section>
+</section>
+</section>
+</content>
+</document>

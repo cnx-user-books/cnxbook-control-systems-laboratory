@@ -1,0 +1,74 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Inverted Pendulum on a Translating Base</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>ff75e152-abe1-4fa6-a69e-959cace15eb6</md:uuid>
+</metadata>
+  <content>
+<section id="id37706674">
+<title>Inverted Pendulum on a Translating Base</title>
+<section id="id37706692">
+<title>Objectives</title>
+<list list-type="bulleted" id="id37706712">
+<item>Understand the dynamics of an inverted pendulum with a
+translating base.</item>
+<item>Use state feedback to control an unstable system.</item>
+</list>
+</section>
+<section id="id37706342">
+<title>Pre-Lab</title>
+<list list-type="enumerated" id="id37706356">
+<item>Derive the equations of motion for an inverted pendulum with
+a translating base shown in the figure below
+<figure id="invertpendulum">
+<media id="idp9102368" alt=""><image src="../../media/invertpendulum.jpg" mime-type="image/jpeg"/></media>
+<caption>Inverted Pendulum with a Translating Base</caption></figure>
+<figure id="parameters">
+<media id="idm520256" alt=""><image src="../../media/param.jpg" mime-type="image/jpeg"/></media>
+<caption>Pendulum Parameters</caption></figure>
+</item>
+
+<item>Find a state-space realization of the system.</item>
+<item>Design and simulate a full state-feedback compensator that
+stabilizes the system and satisfies the following performance
+specifications:
+<list list-type="enumerated" id="id37706407">
+<item>Percent overshoot   
+  <m:math>
+    <m:mo>≤</m:mo>
+    <m:mn>10</m:mn>
+    <m:mo>%</m:mo>
+  </m:math>
+</item>
+<item>Setting time 
+  <m:math>
+    <m:mo>≤</m:mo>
+    <m:mn>2</m:mn>
+    <m:mi>sec</m:mi>
+  </m:math>
+</item></list></item>
+</list>
+</section>
+<section id="id37706446">
+<title>Lab Procedure</title>
+<list list-type="enumerated" id="id37706460">
+<item>Configure the plant as shown above in Fig. 1.</item>
+<item>Code your state-feedback compensator into the control loop
+VI.</item>
+<item>Perform a 2500 count step input and save the plot.</item>
+<item>Implement dither into your system and perform the step input
+again. Save the plot when you are finished.</item>
+</list>
+</section>
+<section id="id37708469">
+<title>Post-Lab</title>
+<list list-type="enumerated" id="id37708475">
+<item>How did the response of the system with no dither compare to
+your simulation? Can you explain the discrepancy?</item>
+<item>What effect did dither have on the response of the system?
+Was this response trajectory closer to what you had
+simulated?</item>
+</list>
+</section>
+</section>
+  </content>
+  
+</document>
