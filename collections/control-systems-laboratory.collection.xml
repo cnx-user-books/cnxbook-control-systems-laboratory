@@ -1,12 +1,13 @@
-<col:collection xmlns="http://cnx.rice.edu/collxml" xmlns:col="http://cnx.rice.edu/collxml" xml:lang="en">
+<?xml version="1.0"?>
+<col:collection xmlns="http://cnx.rice.edu/collxml" xmlns:col="http://cnx.rice.edu/collxml" xml:lang="en" authors="Nick Lin ,Eduardo Gildin ,Robert Bishop">
   <metadata xmlns:md="http://cnx.rice.edu/mdml" mdml-version="0.5">
     <md:content-id>col10302</md:content-id>
     <md:title>Control Systems Laboratory</md:title>
     <md:language>en</md:language>
     <md:license url="http://creativecommons.org/licenses/by/2.0/">Creative Commons Attribution License</md:license>
     <md:uuid>ef6fe779-56f0-483f-8f0b-b1dbf86ea0e1</md:uuid>
-<md:slug>control-systems-laboratory</md:slug>
-</metadata>
+    <md:slug>control-systems-laboratory</md:slug>
+  </metadata>
   <col:content>
     <col:module document="m13025"/>
     <col:module document="m13071"/>
