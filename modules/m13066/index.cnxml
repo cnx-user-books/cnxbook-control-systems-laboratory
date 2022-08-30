@@ -380,9 +380,9 @@ Compare the above with the equations of motion you derived in terms of mass, dam
   <m:math>
     <m:mi>k</m:mi>
   </m:math>.  
-  <m:math display="block"/>
+  
 Repeat these calculations for the trials involving the second mass carriage and spring, mc2 and k.   
-   <m:math display="block"/>
+   
 Since the same spring was used in the experiments, the values for   
   <m:math>
     <m:mi>k</m:mi>
@@ -397,7 +397,7 @@ Since the same spring was used in the experiments, the values for
       </m:mrow>
     </m:msub>
   </m:math> to denote the medium stiffness spring.  
-<m:math display="block"/>Now with your recorded values for 
+Now with your recorded values for 
   <m:math>
     <m:mi>ζ</m:mi>
   </m:math> calculate   
@@ -407,14 +407,14 @@ Since the same spring was used in the experiments, the values for
       <m:mn>1</m:mn>
     </m:msub>
   </m:math>, the damping coefficient for the first mass carriage.  
-<m:math display="block"/>Repeat this calculation to find the damping coefficient for the second mass carriage,
+Repeat this calculation to find the damping coefficient for the second mass carriage,
   <m:math>
     <m:msub>
       <m:mi>c</m:mi>
       <m:mn>2</m:mn>
     </m:msub>
   </m:math>.  
-<m:math display="block"/>Finally, calculate the damping coefficient of the dashpot,
+Finally, calculate the damping coefficient of the dashpot,
   <m:math>
     <m:msub>
       <m:mi>c</m:mi>
@@ -451,8 +451,7 @@ Since the same spring was used in the experiments, the values for
       </m:mrow>
     </m:msub>
   </m:math>.
-   <m:math display="block">
-   </m:math>
+   
 All dynamic parameters have been identified! Values for   
   <m:math>
     <m:msub>
@@ -618,8 +617,7 @@ All dynamic parameters have been identified! Values for
     </m:msub>
   </m:math>where  
  
-   <m:math display="block">
-   </m:math>
+   
    <m:math>
     <m:msub>
       <m:mi>k</m:mi>
@@ -637,8 +635,7 @@ All dynamic parameters have been identified! Values for
     <m:mn>768</m:mn>
   </m:math> DAC counts
 
-   <m:math display="block">
-   </m:math>
+   
    <m:math>
     <m:msub>
       <m:mi>k</m:mi>
@@ -651,8 +648,7 @@ All dynamic parameters have been identified! Values for
     <m:mi>V</m:mi>
   </m:math>
 
-  <m:math display="block">
-   </m:math>
+  
    <m:math>
     <m:msub>
       <m:mi>k</m:mi>
@@ -672,8 +668,7 @@ All dynamic parameters have been identified! Values for
     </m:mrow>
   </m:math>
 
-   <m:math display="block">
-   </m:math>
+   
   <m:math>
     <m:msub>
       <m:mi>k</m:mi>
@@ -694,8 +689,7 @@ All dynamic parameters have been identified! Values for
     </m:msup>
   </m:math>
 
-   <m:math display="block">
-   </m:math>
+   
    <m:math>
     <m:msub>
       <m:mi>k</m:mi>
@@ -716,7 +710,7 @@ All dynamic parameters have been identified! Values for
     </m:msup>
   </m:math>
 
-   <m:math display="block"/>
+   
    <m:math>
     <m:msub>
       <m:mi>k</m:mi>
@@ -731,7 +725,7 @@ All dynamic parameters have been identified! Values for
   <m:math>
     <m:mi>π</m:mi>
   </m:math>radians
-   <m:math display="block"/>
+   
 Using what you have learned about hardware gain, calculate a
 value for the product 
   <m:math>
